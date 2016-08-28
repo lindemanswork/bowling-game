@@ -1,10 +1,6 @@
 var file = require('file-system');
 var fs = require('fs');
-
-
-
-
-//var http = require('http');
+var pg = require('pg');
 var serveIndex = require('serve-index');
 var path = require('path');
 
@@ -36,7 +32,21 @@ app.get('/sendDataToBackend', function(req, res) {
     console.log(json);
     writeDataToFile(json, false);
     //console.log("Backend: "+JSON.stringify(req.body));
-})
+});
+
+//write to database
+pg.defaults.ssl = true;
+pg.connect(process.env.DATABASE_URL, function(err, client) {
+  if (err) throw err;
+  console.log('Connected to postgres! Getting schemas...');
+
+  client
+    .query('SELECT table_schema,table_name FROM information_schema.tables;')
+    .on('row', function(row) {
+      console.log(JSON.stringify(row));
+    });
+});
+
 
 function replaceAll(str, find, replace) {
     return str.replace(new RegExp(find, 'g'), replace);
