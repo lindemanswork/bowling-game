@@ -29,7 +29,7 @@ var commaSepString = "";
 
 recordIPAddressData(); //get IP address for each game played
 
-commaSepString = commaSepString + ","+url; //HERE NEED TO UPDATE STRING 9/4
+commaSepString = commaSepString + ","+cah_url; //HERE NEED TO UPDATE STRING 9/4
 jsonData["start_game"] = timestamp();
 jsonData["game_0"] = {};
 
@@ -470,7 +470,7 @@ function setBlinkInIntervalWithRep(ints, originalInts, knockedDown, callback) {
 
                 //console.log("Update GUI pins left: "+ original[0].toString());
                 var newArr = addKnockedDownPinsToArr(original, knockedDown);
-                //updateGUI(newArr.reverse()[0]);
+                updateGUI(10); //CHANGE THE 10 TO THE NUM OF PINS CURRENTLY KNOCKED DOWN
                 //console.log("Pins left to keep grey: "+newArr.reverse()[0].toString());
                 setBlinkInInterval(newArr, callback);
             }, 75);
@@ -579,6 +579,7 @@ function NextRound(payFirst) {
     totalRounds = totalRounds - 1;
     totalPins = 10; //reset total number of pins
 
+/*
     //record data
     if (jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()] == null) {
         jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()] = [];
@@ -593,7 +594,7 @@ function NextRound(payFirst) {
         "wealth_francs": myWealth,
         "money_dollars": totalScore
     });
-
+*/
     //reset GUI
     circlePositions = [];
     for (var i = 0; i < 10; i++) {
