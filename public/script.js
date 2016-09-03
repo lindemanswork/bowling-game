@@ -257,6 +257,8 @@ function createUniqueCode(callback) {
     var code = document.getElementById("uniqueCode");
     var input = document.createElement("input");
     input.setAttribute("type", "text");
+    input.setAttribute("placeholder", "Your unique code");
+    input.setAttribute("class", "focus");
     input.id = "uniqueCodeID";
     var button = document.createElement("input");
     button.id = "uniquecodebutton";
@@ -269,6 +271,7 @@ function createUniqueCode(callback) {
 }
 
 function getUniqueCode(callback) {
+    var initialDivs = document.getElementById("initial");
     var button = document.getElementById("uniquecodebutton");
     var input = document.getElementById("uniqueCodeID");
     var uniqueCode = input.value;
@@ -277,9 +280,7 @@ function getUniqueCode(callback) {
     jsonData["unique_code"] = uniqueCode;
 
     if (uniqueCode) {
-        button.disabled = true;
-        button.style.visibility="hidden";
-        input.style.visibility="hidden";
+        initial.parentNode.removeChild(initial);
 
         callback();
     }
