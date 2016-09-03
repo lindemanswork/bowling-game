@@ -207,6 +207,9 @@ function spendFirstIncome() {
 }
 
 function payFirst() {
+    //disable play game button
+    document.getElementById("playGame").disabled=true;
+
     createUniqueCode(function() {
 
         option = "pay first";
@@ -229,6 +232,9 @@ function payFirst() {
 }
 
 function spendFirst() {
+    //disable play game button
+    document.getElementById("playGame").disabled=true;
+    
     createUniqueCode(function() {
 
         option = "spend first";
@@ -281,7 +287,6 @@ function getUniqueCode(callback) {
 
     if (uniqueCode) {
         initial.parentNode.removeChild(initial);
-
         callback();
     }
 
