@@ -467,8 +467,11 @@ function setBlinkInIntervalWithRep(ints, originalInts, knockedDown, callback) {
         if (ints.length == 0) {
             clearInterval(interval);
             setTimeout(function() {
-                updateGUI(original[0]);
+
+                //console.log("Update GUI pins left: "+ original[0].toString());
                 var newArr = addKnockedDownPinsToArr(original, knockedDown);
+                //updateGUI(newArr.reverse()[0]);
+                //console.log("Pins left to keep grey: "+newArr.reverse()[0].toString());
                 setBlinkInInterval(newArr, callback);
             }, 75);
         }
@@ -488,6 +491,7 @@ function addKnockedDownPinsToArr(originalInts, knockedDown){
     }
     console.log("knockedDownPinsArr");
     console.log(knockedDownPinsArr);
+
     return knockedDownPinsArr.reverse();
 }
 
