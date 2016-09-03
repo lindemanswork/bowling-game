@@ -37,9 +37,18 @@ body{
     margin: auto;
 }
 
+#gameGUI{
+    height: 150px !important;
+}
+
+#gameButtons{
+    height: 47px !important;
+}
 #gameGUI, #middleStuff{
     height: 20%;
 }
+
+#middleStuff{}
 
 
 /* Buttons */

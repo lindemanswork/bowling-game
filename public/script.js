@@ -852,6 +852,8 @@ function createInitialDivs() {
     middleStuff.id = "middleStuff"
     game.appendChild(middleStuff);
 
+    //middleStuff.appendChild(document.getElementById("gameGUI"));
+
     var gameUpdates = document.createElement("div");
     gameUpdates.id = "gameUpdates";
     middleStuff.appendChild(gameUpdates);
@@ -866,7 +868,7 @@ function createInitialDivs() {
 
     var gameButtons = document.createElement("div")
     gameButtons.id = "gameButtons";
-    middleStuff.appendChild(gameButtons)
+    middleStuff.appendChild(gameButtons);
 
     var rollBall = document.createElement("button");
     rollBall.id = "rollBall";
@@ -890,6 +892,7 @@ function createInitialDivs() {
     totalScore.id = "TotalScore";
     totalScore.innerHTML = "Money earned: ";
     game.appendChild(totalScore);
+
 
     $('#rollBall').hide();
     $('#nextRound').hide();
