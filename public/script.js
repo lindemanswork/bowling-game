@@ -23,12 +23,16 @@ var option = "";
 var name = "No name";
 var IPaddress = "";
 var jsonData = {}; //json Data to return 
-
 var uniqueCodeSent;
 
+var commaSepString = "";
+
 recordIPAddressData(); //get IP address for each game played
+
+commaSepString = commaSepString + ","+url; //HERE NEED TO UPDATE STRING 9/4
 jsonData["start_game"] = timestamp();
 jsonData["game_0"] = {};
+
 var margin = {
         top: 50,
         right: 100,
@@ -110,6 +114,7 @@ function recordIPAddressData() {
     $.getJSON('https://api.ipify.org?format=json', function(data) {
         var IPaddress = data["ip"];
         jsonData["ip"] = IPaddress;
+        commaSepString=IPaddress + commaSepString; //add IP address to string to return
     });
 
 }
@@ -234,7 +239,7 @@ function payFirst() {
 function spendFirst() {
     //disable play game button
     document.getElementById("playGame").disabled=true;
-    
+
     createUniqueCode(function() {
 
         option = "spend first";
@@ -445,7 +450,7 @@ function setBlinkInInterval(ints, callback) {
         tempArr.push(ints.pop());
         performBlink(tempArr);
 
-    }, 150);
+    }, 70);
 }
 
 function setPinsBackToNormal(){
@@ -465,12 +470,12 @@ function setBlinkInIntervalWithRep(ints, originalInts, knockedDown, callback) {
                 updateGUI(original[0]);
                 var newArr = addKnockedDownPinsToArr(original, knockedDown);
                 setBlinkInInterval(newArr, callback);
-            }, 150);
+            }, 75);
         }
         tempArr.push(ints.pop());
         performBlink(tempArr);
 
-    }, 150);
+    }, 75);
 }
 
 function addKnockedDownPinsToArr(originalInts, knockedDown){
@@ -490,7 +495,7 @@ function performBlink(tempArr) {
     for (var i = 0; i < tempArr.length; i++) {
         if (tempArr[i] == 10) {} else {
             var bowlingPin = document.getElementById('bowlingPin_' + tempArr[i].toString());
-            bowlingPin.src = "bowling_pin_red.png";
+            bowlingPin.src = "bowling_pin_transparent.png";
         }
     }
     setTimeout(function() {
@@ -499,7 +504,7 @@ function performBlink(tempArr) {
             var bowlingPin = document.getElementById('bowlingPin_' + tempArr[j].toString());
             bowlingPin.src = "bowling_pin_solid.png";
         }
-    }, 70);
+    }, 30);
 }
 
 
