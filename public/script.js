@@ -278,6 +278,8 @@ function getUniqueCode(callback) {
 
     if (uniqueCode) {
         button.disabled = true;
+        button.style.visibility="hidden";
+        input.style.visibility="hidden";
 
         callback();
     }
