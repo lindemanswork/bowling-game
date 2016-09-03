@@ -259,7 +259,7 @@ function createUniqueCode(callback) {
     input.setAttribute("type", "text");
     input.id = "uniqueCodeID";
     var button = document.createElement("input");
-    button.id="uniquecodebutton";
+    button.id = "uniquecodebutton";
     button.setAttribute("type", "button");
     button.setAttribute("value", "Go");
     button.setAttribute("onclick", "getUniqueCode(" + callback + ")");
@@ -269,7 +269,7 @@ function createUniqueCode(callback) {
 }
 
 function getUniqueCode(callback) {
-    var button=document.getElementById("uniquecodebutton");
+    var button = document.getElementById("uniquecodebutton");
     var input = document.getElementById("uniqueCodeID");
     var uniqueCode = input.value;
     console.log("Unique code: " + uniqueCode);
@@ -277,7 +277,7 @@ function getUniqueCode(callback) {
     jsonData["unique_code"] = uniqueCode;
 
     if (uniqueCode) {
-        button.disabled=true;
+        button.disabled = true;
 
         callback();
     }
@@ -362,10 +362,12 @@ function RollBall() {
     console.log('jsonData["game_" + currentMonth]:');
     console.log(jsonData["game_" + currentMonth]);
 
-    console.log({"time": timeHit,
+    console.log({
+        "time": timeHit,
         "choice": "roll",
         "wealth_francs": myWealth,
-        "money_dollars": totalScore});
+        "money_dollars": totalScore
+    });
 
     jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()] = jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()].push({
         "time": timeHit,
@@ -393,11 +395,13 @@ function createList(start, end, start1, end1, callback) {
     }
 
     if (start1 != 0 && end1 !== 0) {
+
         for (var j = start1; j < end1; j++) {
             console.log(j);
             ints.push(j);
         }
     }
+    ints.push(10); //dummy to push since the blink function removes the last element
     console.log(ints);
     callback(ints);
 }
@@ -409,6 +413,8 @@ var allpins = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
  */
 function blink(start, end, start1 = 0, end1 = 0, callback = function() {}) {
     createList(start, end, start1, end1, function(ints) {
+        console.log("original ints: ");
+        console.log(ints);
         var interval = setInterval(function() {
             if (ints.length == 0) {
                 clearInterval(interval);
@@ -417,15 +423,24 @@ function blink(start, end, start1 = 0, end1 = 0, callback = function() {}) {
                 }, 50);
             }
 
-            for (var i = 0; i < allpins.length; i++) {
-                document.getElementById("bowlingPin_" + allpins[i].toString()).style.visibility = 'hidden';
+            for (var i = 0; i < ints.length; i++) {
+                //document.getElementById("bowlingPin_" + ints[i].toString()).style.visibility = 'visible';
+                if (ints[i] == 10) {} else {
+                    var bowlingPin = document.getElementById('bowlingPin_' + ints[i].toString());
+                    bowlingPin.src = "bowling_pin_solid.png";
+                }
             }
+
             setTimeout(function() {
 
-                for (var i = 0; i < ints.length; i++) {
-                    document.getElementById("bowlingPin_" + ints[i].toString()).style.visibility = 'visible';
+                for (var j = 0; j < ints.length; j++) {
+                    console.log("Ints to be red");
+                    console.log(ints);
+                    //document.getElementById("bowlingPin_" + i.toString()).style.visibility = 'hidden';
+                    var bowlingPin = document.getElementById('bowlingPin_' + ints[j].toString());
+                    bowlingPin.src = "bowling_pin_red.png";
                 }
-            }, 150);
+            }, 100);
 
             ints.pop();
         }, 300);
@@ -505,7 +520,7 @@ function NextRound(payFirst) {
         jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()] = [];
     }
 
-    console.log('jsonData["game_"' + currentMonth+']["round_"' + (10 - totalRounds).toString()+']:');
+    console.log('jsonData["game_"' + currentMonth + ']["round_"' + (10 - totalRounds).toString() + ']:');
     console.log(jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()]);
 
     jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()] = jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()].push({
