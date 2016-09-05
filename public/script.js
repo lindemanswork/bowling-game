@@ -221,7 +221,7 @@ function payFirst() {
 
         option = "pay first";
         jsonData["condition"] = option;
-        commaSepString = commaSepString + option; //ADD THE DATA
+        commaSepString = commaSepString +";"+ option; //ADD THE DATA
 
         console.log("commaSepString" + commaSepString);
 
@@ -249,7 +249,7 @@ function spendFirst() {
 
         option = "spend first";
         jsonData["condition"] = option;
-        commaSepString = commaSepString + option; //ADD THE DATA
+        commaSepString = commaSepString +";"+option; //ADD THE DATA
 
         createInitialDivs();
 

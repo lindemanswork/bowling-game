@@ -1,0 +1,1 @@
+IP_address,url,unique_id,option,start_time,1-1_wealth,1-1_earn,1-1_pinsRemaining,1-1_choices,1-1_times
