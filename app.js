@@ -9,6 +9,19 @@ var app = express();
 var bodyParser = require('body-parser')
 var dbOperations = require("./dbOperations.js");
 
+var firstRow="";
+
+for (var i=1; i<=4; i++){
+    for (var j=1; j<=10; j++){
+        var numb=i.toString()+"_"+j.toString()+"_";
+        var arrs=numb+"wealth,"+numb+"earn,"+numb+"pinsRemaining,"+numb+"choices,"+numb+"times"
+        firstRow = firstRow+","+arrs;
+    }
+}
+
+firstRow="IP_address,url,unique_id,option,start_time"+firstRow;
+writeDataToFile(firstRow);
+console.log("First row: \n"+firstRow);
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
