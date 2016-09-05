@@ -601,9 +601,9 @@ function recordArraysData() {
     //reset the arrays for next round
     wealthArray = [];
     moneyEarnedArray = [];
-    pinsRemainingArray=[];
-    choicesArray=[];
-    timesArray=[];
+    pinsRemainingArray = [];
+    choicesArray = [];
+    timesArray = [];
 }
 var gameUpdates;
 
@@ -761,6 +761,7 @@ function NextRound(payFirst) {
             } else if (currentMonth >= 4) {
                 //createCustomAlert("GAME OVER");
                 gameUpdates.innerHTML = "<b>GAME OVER</b>";
+                /*
                 monthlyWealth[timestamp()] = myWealth;
                 moneyEarned[timestamp()] = totalScore;
                 console.log(monthlyWealth);
@@ -772,21 +773,8 @@ function NextRound(payFirst) {
                 var endEarned = {
                     "moneyEarned": moneyEarned
                 };
-
-
-
-                //var data = [option, endWealth, endEarned];
-                $.ajax({
-                    type: 'GET', // added,
-                    url: '/sendDataToBackend',
-                    data: JSON.stringify(jsonData),
-                    contentType: "application/json; charset=utf-8",
-                    //jsonpCallback: 'callback' - removed
-                    success: function(data) {
-                        console.log("success on client side");
-                    }
-                });
-
+                */
+                sendDataToBackend();
                 killGame();
                 //getData();
 
@@ -807,7 +795,18 @@ function NextRound(payFirst) {
     }
 }
 
-
+function sendDataToBackend() {
+    $.ajax({
+        type: 'GET', // added,
+        url: '/sendDataToBackend',
+        data: commaSepString,
+        contentType: "application/json; charset=utf-8",
+        //jsonpCallback: 'callback' - removed
+        success: function(data) {
+            console.log("success on client side");
+        }
+    });
+}
 
 function updateTotalScore(knockedDown) {
     totalScore = totalScore + knockedDown;
