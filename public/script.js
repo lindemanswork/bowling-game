@@ -29,7 +29,8 @@ var commaSepString = "";
 
 recordIPAddressData(); //get IP address for each game played
 
-commaSepString = commaSepString + ","+cah_url; //HERE NEED TO UPDATE STRING 9/4
+commaSepString = commaSepString + "," + cah_url; //HERE NEED TO UPDATE STRING 9/4
+
 jsonData["start_game"] = timestamp();
 jsonData["game_0"] = {};
 
@@ -41,6 +42,15 @@ var margin = {
     },
     width = 960 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
+
+function recordIPAddressData() {
+    $.getJSON('https://api.ipify.org?format=json', function(data) {
+        var IPaddress = data["ip"];
+        jsonData["ip"] = IPaddress;
+        commaSepString = IPaddress + commaSepString; //add IP address to string to return
+    });
+
+}
 
 function makeRectangle(color, leftpadding, toppadding, botpadding = 0, inlineBlock) {
     if (inlineBlock) {
@@ -110,14 +120,6 @@ function timestamp() {
     return timestamp;
 }
 
-function recordIPAddressData() {
-    $.getJSON('https://api.ipify.org?format=json', function(data) {
-        var IPaddress = data["ip"];
-        jsonData["ip"] = IPaddress;
-        commaSepString=IPaddress + commaSepString; //add IP address to string to return
-    });
-
-}
 
 //format money
 function format2(n, currency) {
@@ -213,12 +215,15 @@ function spendFirstIncome() {
 
 function payFirst() {
     //disable play game button
-    document.getElementById("playGame").disabled=true;
+    document.getElementById("playGame").disabled = true;
 
     createUniqueCode(function() {
 
         option = "pay first";
         jsonData["condition"] = option;
+        commaSepString = commaSepString + "," + option;//ADD THE DATA
+
+        console.log("commaSepString"+ commaSepString);
 
         createInitialDivs();
         firstPayments();
@@ -238,7 +243,7 @@ function payFirst() {
 
 function spendFirst() {
     //disable play game button
-    document.getElementById("playGame").disabled=true;
+    document.getElementById("playGame").disabled = true;
 
     createUniqueCode(function() {
 
@@ -290,6 +295,8 @@ function getUniqueCode(callback) {
     //record the code
     jsonData["unique_code"] = uniqueCode;
 
+    console.log("Comma sep string with unique id: "+commaSepString);
+    commaSepString = commaSepString + "," + uniqueCode;
     if (uniqueCode) {
         initial.parentNode.removeChild(initial);
         callback();
@@ -433,12 +440,12 @@ function blink(start, end, start1 = 0, end1 = 0, knockedDown, callback = functio
 
         //var tempArr = [];
         //setBlinkInInterval(ints, tempArr, callback);
-        setBlinkInIntervalWithRep(ints, originalInts, knockedDown, callback); 
+        setBlinkInIntervalWithRep(ints, originalInts, knockedDown, callback);
     })
 }
 
 function setBlinkInInterval(ints, callback) {
-    var tempArr=[];
+    var tempArr = [];
     var interval = setInterval(function() {
         if (ints.length == 0) {
             clearInterval(interval);
@@ -453,7 +460,7 @@ function setBlinkInInterval(ints, callback) {
     }, 70);
 }
 
-function setPinsBackToNormal(){
+function setPinsBackToNormal() {
 
 }
 
@@ -462,7 +469,7 @@ function setBlinkInIntervalWithRep(ints, originalInts, knockedDown, callback) {
     console.log("originalInts in setBlinkInIntervalWithRep");
     var original = originalInts.slice();
     console.log(original);
-    var tempArr=[];
+    var tempArr = [];
     var interval = setInterval(function() {
         if (ints.length == 0) {
             clearInterval(interval);
@@ -481,13 +488,13 @@ function setBlinkInIntervalWithRep(ints, originalInts, knockedDown, callback) {
     }, 75);
 }
 
-function addKnockedDownPinsToArr(originalInts, knockedDown){
+function addKnockedDownPinsToArr(originalInts, knockedDown) {
     originalInts.reverse();
-    var knockedDownPinsArr=new Array();
+    var knockedDownPinsArr = new Array();
     var startPin = originalInts[0];
     knockedDownPinsArr.push(startPin);
-    for (var i=1; i<=knockedDown; i++){
-        knockedDownPinsArr.push(startPin+i);
+    for (var i = 1; i <= knockedDown; i++) {
+        knockedDownPinsArr.push(startPin + i);
     }
     console.log("knockedDownPinsArr");
     console.log(knockedDownPinsArr);
@@ -579,22 +586,22 @@ function NextRound(payFirst) {
     totalRounds = totalRounds - 1;
     totalPins = 10; //reset total number of pins
 
-/*
-    //record data
-    if (jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()] == null) {
-        jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()] = [];
-    }
+    /*
+        //record data
+        if (jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()] == null) {
+            jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()] = [];
+        }
 
-    console.log('jsonData["game_"' + currentMonth + ']["round_"' + (10 - totalRounds).toString() + ']:');
-    console.log(jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()]);
+        console.log('jsonData["game_"' + currentMonth + ']["round_"' + (10 - totalRounds).toString() + ']:');
+        console.log(jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()]);
 
-    jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()] = jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()].push({
-        "time": timeHit,
-        "choice": "next",
-        "wealth_francs": myWealth,
-        "money_dollars": totalScore
-    });
-*/
+        jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()] = jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()].push({
+            "time": timeHit,
+            "choice": "next",
+            "wealth_francs": myWealth,
+            "money_dollars": totalScore
+        });
+    */
     //reset GUI
     circlePositions = [];
     for (var i = 0; i < 10; i++) {
@@ -867,6 +874,8 @@ function NextMonthButton() {
 }
 
 function createInitialDivs() {
+    commaSepString = commaSepString +","+ jsonData["start_game"]; //add time in which page is open to string of data to send
+
     var game = document.getElementById("game");
     var upperStuff = document.getElementById("upperStuff");
 
