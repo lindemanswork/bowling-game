@@ -18,6 +18,9 @@ app.use(bodyParser.json())
 
 app.use("/", serveIndex("public"));
 
+app.get('/data', function(req, res){
+  res.sendFile(__dirname + '/data.txt');
+});
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -48,7 +51,7 @@ app.get('/sendDataToBackend', function(req, res) {
     var json = replaceAll(tempJson, '%22', '"');
     json = replaceAll(json, "%20", " ");
     console.log(json);
-    dbOperations.addRecord(req);
+    //dbOperations.addRecord(req);
     writeDataToFile(json, false);
     //console.log("Backend: "+JSON.stringify(req.body));
 });
