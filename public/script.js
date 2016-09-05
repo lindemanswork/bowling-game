@@ -29,7 +29,7 @@ var commaSepString = "";
 
 recordIPAddressData(); //get IP address for each game played
 
-commaSepString = commaSepString + "," + cah_url; //HERE NEED TO UPDATE STRING 9/4
+commaSepString = commaSepString + ";" + cah_url; //HERE NEED TO UPDATE STRING 9/4
 
 jsonData["start_game"] = timestamp();
 jsonData["game_0"] = {};
@@ -221,9 +221,9 @@ function payFirst() {
 
         option = "pay first";
         jsonData["condition"] = option;
-        commaSepString = commaSepString + "," + option;//ADD THE DATA
+        commaSepString = commaSepString + option; //ADD THE DATA
 
-        console.log("commaSepString"+ commaSepString);
+        console.log("commaSepString" + commaSepString);
 
         createInitialDivs();
         firstPayments();
@@ -249,6 +249,7 @@ function spendFirst() {
 
         option = "spend first";
         jsonData["condition"] = option;
+        commaSepString = commaSepString + option; //ADD THE DATA
 
         createInitialDivs();
 
@@ -295,8 +296,8 @@ function getUniqueCode(callback) {
     //record the code
     jsonData["unique_code"] = uniqueCode;
 
-    console.log("Comma sep string with unique id: "+commaSepString);
-    commaSepString = commaSepString + "," + uniqueCode;
+    console.log("Comma sep string with unique id: " + commaSepString);
+    commaSepString = commaSepString + ";" + uniqueCode;
     if (uniqueCode) {
         initial.parentNode.removeChild(initial);
         callback();
@@ -343,6 +344,11 @@ function drawPins() { //currently just circles
 
 }
 
+var wealthArray = [];
+var moneyEarnedArray = [];
+var pinsRemainingArray = [];
+var choicesArray = [];
+var timesArray = [];
 
 function RollBall() {
     console.log("jsonData in throwball function:");
@@ -362,7 +368,6 @@ function RollBall() {
 
     }
 
-
     //update balls left
     myWealth = myWealth - 1;
     fontFlash(wealth, 'darkblue', 'bold', function() {
@@ -370,31 +375,37 @@ function RollBall() {
         fontFlash(wealth, 'red', 'bold');
     });
 
-    generatePinsKnockedDown(totalPins);
+    var remainingPins = generatePinsKnockedDown(totalPins);
     //record data
-    //record data
-    if (jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()] == null) {
-        jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()] = [];
-    }
+    wealthArray.push(myWealth);
+    moneyEarnedArray.push(totalScore);
+    pinsRemainingArray.push(remainingPins);
+    choicesArray.push("throw");
+    timesArray.push(timeHit);
+    /*
+        if (jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()] == null) {
+            jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()] = [];
+        }
 
-    console.log('jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()]:');
-    console.log(jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()]);
-    console.log('jsonData["game_" + currentMonth]:');
-    console.log(jsonData["game_" + currentMonth]);
+        console.log('jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()]:');
+        console.log(jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()]);
+        console.log('jsonData["game_" + currentMonth]:');
+        console.log(jsonData["game_" + currentMonth]);
 
-    console.log({
-        "time": timeHit,
-        "choice": "roll",
-        "wealth_francs": myWealth,
-        "money_dollars": totalScore
-    });
+        console.log({
+            "time": timeHit,
+            "choice": "roll",
+            "wealth_francs": myWealth,
+            "money_dollars": totalScore
+        });
 
-    jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()] = jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()].push({
-        "time": timeHit,
-        "choice": "roll",
-        "wealth_francs": myWealth,
-        "money_dollars": totalScore
-    });
+        jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()] = jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()].push({
+            "time": timeHit,
+            "choice": "roll",
+            "wealth_francs": myWealth,
+            "money_dollars": totalScore
+        });
+        */
 
 }
 
@@ -544,6 +555,7 @@ function flashPins(pinsLeft, knockedDown, callback) {
     }
 }
 
+//returns number of pins knocked down
 function generatePinsKnockedDown(pinsLeft) {
     var gameUpdates = document.getElementById("gameUpdates");
     //generate random number of pins knocked down
@@ -573,11 +585,35 @@ function generatePinsKnockedDown(pinsLeft) {
         }, 250);
     });
 
+    return totalPins;
+
+}
+
+function recordArraysData() {
+    //record data
+    commaSepString = commaSepString + ";[" + wealthArray.toString() + "]";
+    commaSepString = commaSepString + ";[" + moneyEarnedArray.toString() + "]";
+    commaSepString = commaSepString + ";[" + pinsRemainingArray.toString() + "]";
+    commaSepString = commaSepString + ";[" + choicesArray.toString() + "]";
+    commaSepString = commaSepString + ";[" + timesArray.toString() + "]";
+    console.log(commaSepString);
+
+    //reset the arrays for next round
+    wealthArray = [];
+    moneyEarnedArray = [];
+    pinsRemainingArray=[];
+    choicesArray=[];
+    timesArray=[];
 }
 var gameUpdates;
 
 function NextRound(payFirst) {
     var timeHit = timestamp();
+    wealthArray.push(myWealth);
+    moneyEarnedArray.push(totalScore);
+    pinsRemainingArray.push(totalPins);
+    choicesArray.push("next");
+    timesArray.push(timeHit);
 
     $('#rollBall').hide();
     $('#nextRound').hide();
@@ -586,22 +622,7 @@ function NextRound(payFirst) {
     totalRounds = totalRounds - 1;
     totalPins = 10; //reset total number of pins
 
-    /*
-        //record data
-        if (jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()] == null) {
-            jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()] = [];
-        }
-
-        console.log('jsonData["game_"' + currentMonth + ']["round_"' + (10 - totalRounds).toString() + ']:');
-        console.log(jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()]);
-
-        jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()] = jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()].push({
-            "time": timeHit,
-            "choice": "next",
-            "wealth_francs": myWealth,
-            "money_dollars": totalScore
-        });
-    */
+    recordArraysData();
     //reset GUI
     circlePositions = [];
     for (var i = 0; i < 10; i++) {
@@ -874,7 +895,9 @@ function NextMonthButton() {
 }
 
 function createInitialDivs() {
-    commaSepString = commaSepString +","+ jsonData["start_game"]; //add time in which page is open to string of data to send
+    commaSepString = commaSepString + ";" + jsonData["start_game"]; //add time in which page is open to string of data to send
+
+    console.log(commaSepString);
 
     var game = document.getElementById("game");
     var upperStuff = document.getElementById("upperStuff");
