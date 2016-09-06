@@ -221,7 +221,7 @@ function payFirst() {
 
         option = "pay first";
         jsonData["condition"] = option;
-        commaSepString = commaSepString +";"+ option; //ADD THE DATA
+        commaSepString = commaSepString + ";" + option; //ADD THE DATA
 
         console.log("commaSepString" + commaSepString);
 
@@ -249,7 +249,7 @@ function spendFirst() {
 
         option = "spend first";
         jsonData["condition"] = option;
-        commaSepString = commaSepString +";"+option; //ADD THE DATA
+        commaSepString = commaSepString + ";" + option; //ADD THE DATA
 
         createInitialDivs();
 
@@ -605,6 +605,25 @@ function recordArraysData() {
     choicesArray = [];
     timesArray = [];
 }
+
+function setCurrentDay(){
+    //set current day
+    currDay = 1;
+    currDayString = dayBorder('#C3D0DC', currDay.toString());
+    for (var j = 1; j <= 10; j++) {
+        if (j == 10 - totalRounds) {
+            currDay = currDay + 3;
+            var tempString = dayBorder('#5481C1', currDay.toString());
+        } else {
+            currDay = currDay + 3;
+            var tempString = dayBorder('#C3D0DC', currDay.toString());
+        }
+        console.log("currDay string: "+currDay.toString());
+        if (currDay != 31) {
+            currDayString = currDayString + rectangle + tempString;
+        }
+    }
+}
 var gameUpdates;
 
 function NextRound(payFirst) {
@@ -635,6 +654,7 @@ function NextRound(payFirst) {
     //roundsLeft.innerHTML = "Rounds Left: " + totalRounds.toString();
 
     //set current day
+    /*
     currDay = 1;
     currDayString = dayBorder('#C3D0DC', currDay.toString());
     for (var j = 1; j <= 10; j++) {
@@ -645,9 +665,14 @@ function NextRound(payFirst) {
             currDay = currDay + 3;
             var tempString = dayBorder('#C3D0DC', currDay.toString());
         }
-
-        currDayString = currDayString + rectangle + tempString;
+        console.log("currDay string: "+currDay.toString());
+        if (currDay != 31) {
+            currDayString = currDayString + rectangle + tempString;
+        }
     }
+    */
+    setCurrentDay();
+
 
     $('#day').html(currDayString);
 
@@ -692,8 +717,9 @@ function NextRound(payFirst) {
         $("#nextMonth").click(function() {
             //reset to months
             totalRounds = 10;
+            setCurrentDay();
 
-
+/*
             currDay = 1;
             currDayString = dayBorder('#C3D0DC', currDay.toString());
             for (var j = 1; j <= 10; j++) {
@@ -707,6 +733,7 @@ function NextRound(payFirst) {
 
                 currDayString = currDayString + rectangle + tempString;
             }
+            */
 
             $('#day').html(currDayString);
 
