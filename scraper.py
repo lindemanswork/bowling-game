@@ -31,9 +31,8 @@ def writeToFile(bowling_info, filename):
 			if not (check_data_exists(filename, unique_id)):
 				writer.writerow(new_array) 
 
-
-bowling_info = scrape_and_get_text()
-
-writeToFile(bowling_info,'bowling.csv')
+while True:
+	bowling_info = scrape_and_get_text()
+	writeToFile(bowling_info,'bowling.csv')
 
 
