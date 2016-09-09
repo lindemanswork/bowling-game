@@ -2,6 +2,7 @@ import urllib
 from urllib import urlopen
 import threading
 import csv
+import time
 
 url = 'https://cah-bowling-game.herokuapp.com/data'
 interval = 60.0 #number of seconds
@@ -17,9 +18,10 @@ def check_data_exists(filename, new_unique_id):
 	with open(filename,'rb') as f:
 		reader = csv.reader(f,delimiter=',')
 		for row in reader:
-			unique_id=row[2]
-			if unique_id==new_unique_id:
-				return True
+			if row:
+				unique_id=row[2]
+				if unique_id==new_unique_id:
+					return True
 	return False
 
 def writeToFile(bowling_info, filename):
@@ -32,7 +34,9 @@ def writeToFile(bowling_info, filename):
 				writer.writerow(new_array) 
 
 while True:
+	print "loop"
 	bowling_info = scrape_and_get_text()
 	writeToFile(bowling_info,'bowling.csv')
+	time.sleep(60)
 
 
