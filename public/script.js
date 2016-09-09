@@ -455,6 +455,7 @@ function setPinsBackToNormal() {
 function setBlinkInIntervalWithRep(ints, originalInts, knockedDown, callback) {
     console.log("originalInts in setBlinkInIntervalWithRep");
     var original = originalInts.slice();
+    console.log("Original:");
     console.log(original);
     var tempArr = [];
     var interval = setInterval(function() {
@@ -464,7 +465,8 @@ function setBlinkInIntervalWithRep(ints, originalInts, knockedDown, callback) {
 
                 //console.log("Update GUI pins left: "+ original[0].toString());
                 var newArr = addKnockedDownPinsToArr(original, knockedDown);
-                updateGUI(10); //CHANGE THE 10 TO THE NUM OF PINS CURRENTLY KNOCKED DOWN
+                updateGUI(original.length); //CHANGE THE 10 TO THE NUM OF PINS CURRENTLY KNOCKED DOWN
+
                 //console.log("Pins left to keep grey: "+newArr.reverse()[0].toString());
                 setBlinkInInterval(newArr, callback);
             }, 75);
@@ -500,6 +502,7 @@ function performBlink(tempArr) {
             bowlingPin.src = "bowling_pin_transparent.png";
         }
     }
+    /*
     setTimeout(function() {
         for (var j = 0; j < tempArr.length; j++) {
             //document.getElementById("bowlingPin_" + i.toString()).style.visibility = 'hidden';
@@ -507,6 +510,7 @@ function performBlink(tempArr) {
             bowlingPin.src = "bowling_pin_solid.png";
         }
     }, 30);
+    */
 }
 
 
