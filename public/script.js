@@ -26,10 +26,10 @@ var jsonData = {}; //json Data to return
 var uniqueCodeSent;
 
 var commaSepString = "";
-
+var sep = ",";
 recordIPAddressData(); //get IP address for each game played
 
-commaSepString = commaSepString + ";" + cah_url; //HERE NEED TO UPDATE STRING 9/4
+commaSepString = commaSepString + sep + cah_url; //HERE NEED TO UPDATE STRING 9/4
 
 jsonData["start_game"] = timestamp();
 jsonData["game_0"] = {};
@@ -221,7 +221,7 @@ function payFirst() {
 
         option = "pay first";
         jsonData["condition"] = option;
-        commaSepString = commaSepString + ";" + option; //ADD THE DATA
+        commaSepString = commaSepString + sep + option; //ADD THE DATA
 
         console.log("commaSepString" + commaSepString);
 
@@ -249,7 +249,7 @@ function spendFirst() {
 
         option = "spend first";
         jsonData["condition"] = option;
-        commaSepString = commaSepString + ";" + option; //ADD THE DATA
+        commaSepString = commaSepString + sep + option; //ADD THE DATA
 
         createInitialDivs();
 
@@ -297,7 +297,7 @@ function getUniqueCode(callback) {
     jsonData["unique_code"] = uniqueCode;
 
     console.log("Comma sep string with unique id: " + commaSepString);
-    commaSepString = commaSepString + ";" + uniqueCode;
+    commaSepString = commaSepString + sep + uniqueCode;
     if (uniqueCode) {
         initial.parentNode.removeChild(initial);
         callback();
@@ -591,11 +591,11 @@ function generatePinsKnockedDown(pinsLeft) {
 
 function recordArraysData() {
     //record data
-    commaSepString = commaSepString + ";[" + wealthArray.toString() + "]";
-    commaSepString = commaSepString + ";[" + moneyEarnedArray.toString() + "]";
-    commaSepString = commaSepString + ";[" + pinsRemainingArray.toString() + "]";
-    commaSepString = commaSepString + ";[" + choicesArray.toString() + "]";
-    commaSepString = commaSepString + ";[" + timesArray.toString() + "]";
+    commaSepString = commaSepString + sep+"[" + wealthArray.toString() + "]";
+    commaSepString = commaSepString + sep+"[" + moneyEarnedArray.toString() + "]";
+    commaSepString = commaSepString + sep+"[" + pinsRemainingArray.toString() + "]";
+    commaSepString = commaSepString + sep+ "[" + choicesArray.toString() + "]";
+    commaSepString = commaSepString + sep+"[" + timesArray.toString() + "]";
     console.log(commaSepString);
 
     //reset the arrays for next round
@@ -921,7 +921,7 @@ function NextMonthButton() {
 }
 
 function createInitialDivs() {
-    commaSepString = commaSepString + ";" + jsonData["start_game"]; //add time in which page is open to string of data to send
+    commaSepString = commaSepString + sep + jsonData["start_game"]; //add time in which page is open to string of data to send
 
     console.log(commaSepString);
 
