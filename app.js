@@ -14,8 +14,8 @@ var firstRow="";
 for (var i=1; i<=4; i++){
     for (var j=1; j<=10; j++){
         var numb=i.toString()+"_"+j.toString()+"_";
-        var arrs=numb+"wealth,"+numb+"earn,"+numb+"pinsRemaining,"+numb+"choices,"+numb+"times"
-        firstRow = firstRow+","+arrs;
+        var arrs=numb+"wealth;"+numb+"earn;"+numb+"pinsRemaining;"+numb+"choices;"+numb+"times"
+        firstRow = firstRow+";"+arrs;
     }
 }
 

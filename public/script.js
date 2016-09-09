@@ -26,7 +26,7 @@ var jsonData = {}; //json Data to return
 var uniqueCodeSent;
 
 var commaSepString = "";
-var sep = ",";
+var sep = ";";
 recordIPAddressData(); //get IP address for each game played
 
 commaSepString = commaSepString + sep + cah_url; //HERE NEED TO UPDATE STRING 9/4
