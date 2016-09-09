@@ -3,7 +3,7 @@ from urllib import urlopen
 import threading
 import csv
 
-url = 'http://localhost:3000/data' #https://cah-bowling-game.herokuapp.com/data
+url = 'https://cah-bowling-game.herokuapp.com/data'
 interval = 600.0 #number of seconds
 
 
