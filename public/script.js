@@ -382,30 +382,6 @@ function RollBall() {
     pinsRemainingArray.push(remainingPins);
     choicesArray.push("throw");
     timesArray.push(timeHit);
-    /*
-        if (jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()] == null) {
-            jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()] = [];
-        }
-
-        console.log('jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()]:');
-        console.log(jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()]);
-        console.log('jsonData["game_" + currentMonth]:');
-        console.log(jsonData["game_" + currentMonth]);
-
-        console.log({
-            "time": timeHit,
-            "choice": "roll",
-            "wealth_francs": myWealth,
-            "money_dollars": totalScore
-        });
-
-        jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()] = jsonData["game_" + currentMonth]["round_" + (10 - totalRounds).toString()].push({
-            "time": timeHit,
-            "choice": "roll",
-            "wealth_francs": myWealth,
-            "money_dollars": totalScore
-        });
-        */
 
 }
 
@@ -513,7 +489,11 @@ function addKnockedDownPinsToArr(originalInts, knockedDown) {
     return knockedDownPinsArr.reverse();
 }
 
+
+//I think there's something wrong with this function that's causing the animation bug 9/9/16 come back later
 function performBlink(tempArr) {
+    console.log("temparr: ");
+    console.log(tempArr);
     for (var i = 0; i < tempArr.length; i++) {
         if (tempArr[i] == 10) {} else {
             var bowlingPin = document.getElementById('bowlingPin_' + tempArr[i].toString());
