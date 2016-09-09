@@ -9,7 +9,6 @@ interval = 600.0 #number of seconds
 
 #returns an array of the lines
 def scrape_and_get_text():
-	print "SCRAPE EVERY INTERVAL"
 	threading.Timer(interval, scrape_and_get_text).start()
 	return urlopen(url).read().splitlines()
 
@@ -30,7 +29,6 @@ def writeToFile(bowling_info, filename):
 			new_array = line.split(";")
 			unique_id=new_array[2]
 			if not (check_data_exists(filename, unique_id)):
-				print "doesn't exist in the csv file"
 				writer.writerow(new_array) 
 
 
