@@ -19,7 +19,7 @@ for (var i=1; i<=4; i++){
     }
 }
 
-firstRow="IP_address,url,unique_id,option,start_time"+firstRow;
+firstRow="IP_address;url;unique_id;option;start_time"+firstRow;
 writeDataToFile(firstRow);
 console.log("First row: \n"+firstRow);
 // parse application/x-www-form-urlencoded

@@ -4,7 +4,7 @@ import threading
 import csv
 
 url = 'https://cah-bowling-game.herokuapp.com/data'
-interval = 600.0 #number of seconds
+interval = 60.0 #number of seconds
 
 
 #returns an array of the lines
