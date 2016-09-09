@@ -31,6 +31,7 @@ def writeToFile(bowling_info, filename):
 			new_array = line.split(";")
 			unique_id=new_array[2]
 			if not (check_data_exists(filename, unique_id)):
+				print "write new row"
 				writer.writerow(new_array) 
 
 while True:
