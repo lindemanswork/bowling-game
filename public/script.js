@@ -820,9 +820,10 @@ function sendDataToBackend() {
 }
 
 function updateTotalScore(knockedDown) {
-    totalScore = totalScore + knockedDown;
+    totalScore = totalScore + knockedDown*.05;
     var score = document.getElementById("TotalScore");
-    score.innerHTML = "Money earned: " + format2(totalScore / 100.0, "$");
+    score.innerHTML = "Money earned: $" +totalScore.toFixed(2);
+    //"Money earned: " + format2(totalScore / 100.0, "$");
     fontFlash(score, 'green', 'bold');
 }
 
