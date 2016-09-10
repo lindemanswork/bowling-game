@@ -18,7 +18,7 @@ var currDayString = currDay.toString();
 //motivation conditions
 var outcomeCondition = "<b>End Goal</b>: Try to make as much money as possible, and earn up to $13.75!";
 var processCondition = "<b>Rules of Thumb</b>: (1) 10 first balls; (2) following ball when &ge; 5 pins; (3) when rounds left &le; following balls left, following ball when &ge; 1 pin";
-var walkHomeFirstCondition = true;
+//var walkHomeFirstCondition = true;
 var motivationConditionDiv;
 
 //storage variables for data keeping purposes
@@ -278,25 +278,35 @@ function spendFirst() {
 }
 
 var numWalks;
-
+var stepsRequired=50;
+var stepsLeftText;
 function walkHomeFirst(callback) {
     numWalks = 0;
     $("#rollBall").hide();
     $("#nextRound").hide();
     $("#walkHomeButton").show();
     $("#figure1").show();
+    var gameButtons=document.getElementById("gameButtons");
     var gameGUI = document.getElementById("gameGUI");
     gameGUI.innerHTML = '<div id="figure1" class="stick" style="top:300px;">' +
-        '<div class="head">Hero</div>' +
+        '<div class="head">You</div>' +
         '<div class="body"></div>' +
         '<div class="lefthand part"><div></div></div>' +
         '<div class="righthand part"><div></div></div>' +
         '<div class="leftfoot part"><div></div></div>' +
         '<div class="rightfoot part"><div></div></div>' +
         '</div>';
+    //show number of walks
+    stepsLeftText= document.createElement("div");
+    stepsLeftText.id="stepsLeft";
+    stepsLeftText.innerHTML="Steps left: "+(stepsRequired-numWalks);
+    gameGUI.appendChild(stepsLeftText);
+
+    //walk home button
     var walkHomeButton = document.createElement("button");
     walkHomeButton.id = "walkHomeButton";
-    gameGUI.appendChild(walkHomeButton);
+    walkHomeButton.innerHTML="Walk Home";
+    gameButtons.appendChild(walkHomeButton);
     walkHomeButton.setAttribute("onclick", "beginWalking(" /* + numWalks + "," */ + callback + ")");
 
 
@@ -305,13 +315,13 @@ function walkHomeFirst(callback) {
 function beginWalking( /*numWalks, */ callback) {
     $(document).ready(function() {
         numWalks++;
+        stepsLeftText.innerHTML="Steps left: "+(stepsRequired-numWalks);
         console.log("numWalks: " + numWalks.toString());
         var figure1 = $('#figure1').stick();
         figure1.walk(1);
-        if (numWalks >= 10) {
-            console.log("Clicked 10 times");
-            $("#walkHomeButton").hide();
-            $("#figure1").hide();
+        if (numWalks >= stepsRequired) {
+            $("#walkHomeButton").remove();
+            $("#figure1").remove();
             callback();
         }
     });

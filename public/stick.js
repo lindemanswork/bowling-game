@@ -36,8 +36,8 @@ jQuery.fn.stick = function()
 		{
 			movepart( st );
 			st.animate({
-				left: '+=70'
-			}, 2000, function(){
+				left: '+=50'
+			}, 1000, function(){
 				active = false;
 				walk(step-1, call);
 			});
@@ -46,8 +46,8 @@ jQuery.fn.stick = function()
 		{
 			movepart( st );
 			st.animate({
-				left: '-=70'
-			}, 2000, function(){
+				left: '-=50'
+			}, 1000, function(){
 				active = false;
 				walk(step+1, call);
 			});
@@ -65,12 +65,12 @@ jQuery.fn.stick = function()
 		obj.addClass('walk1');
 		setTimeout(function(){
 			obj.removeClass('walk1').addClass('walk2');
-		}, 1000);
+		}, 500);
 		setTimeout(function(){
 			obj.removeClass('walk2');
 			if ( typeof(call) != 'undefined' )
 				call();
-		}, 2000);
+		}, 1000);
 	}
 	return {'walk':walk};
 }

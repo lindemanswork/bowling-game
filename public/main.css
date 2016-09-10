@@ -58,9 +58,9 @@ input[type="text"].focus {
 }
 
 #gameButtons{
-    height: 47px !important;
+    height: 50px !important;
     margin-bottom: 20px;
-    margin-top: 10px;
+    margin-top: 50px;
 }
 #gameGUI, #middleStuff{
     height: 20%;
@@ -180,7 +180,7 @@ a {
 }
 
 
-#gameUpdates,#motivationConditions {
+#gameUpdates,#motivationConditions,#stepsLeft {
     text-align: center;
     margin-top: 1%;
     margin-bottom: 2.5%;
