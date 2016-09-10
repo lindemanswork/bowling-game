@@ -5,29 +5,27 @@
     <link rel="stylesheet" href="main.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script>
+    //which version of the bowling game
+    var motivationConditions = false;
+    var cah_url = window.location.href;
+    </script>
 </head>
 
 <body>
     <div id="game">
-    <div id="rules">
-        <a href="gameRules.html" onclick="return popitup('gameRules.html')">Rules</a>
-    </div>
-        <button onclick="spendFirst()">Play Game</button>
-        <div id="uniqueCode"></div>
-        <!--<form id="personalInfo">
-            <input id="name" type="text" placeholder="first and last name" onkeypress="return searchKeyPress(event)"/>
-            <input id="btnGo" type="button" value="Submit" onclick="submitData()"/>
-        </form>
-        -->
-
-
-        <div id="upperStuff"></div>
-
-
-        <div id="gameGUI">
-           <!-- <svg id="balls"></svg>-->
+        <div id="rules">
+            <a href="gameRules.html" onclick="return popitup('gameRules.html')">Rules</a>
         </div>
-       
+        <div id="initial">
+            <button id="playGame" onclick="spendFirst()">Play Game</button>
+            <!-- <button onclick="spendFirst()">Spend first</button> -->
+            <div id="uniqueCode"></div>
+        </div>
+        <div id="upperStuff"></div>
+        <div id="gameGUI">
+            <!-- <svg id="balls"></svg>-->
+        </div>
     </div>
     <script src="script.js"></script>
 </body>

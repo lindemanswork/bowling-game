@@ -15,6 +15,11 @@ var currDay = dayBorder('#5481C1', '1') + rectangle + dayBorder('#C3D0DC', '4') 
     dayBorder('#C3D0DC', '22') + rectangle + dayBorder('#C3D0DC', '25') + rectangle + dayBorder('#C3D0DC', '28');
 var currDayString = currDay.toString();
 
+//motivation conditions
+var outcomeCondition = "End Goal: Try to make as much money as possible, and earn up to $13.75!";
+var processCondition = "Rules of Thumb: (1) 10 first balls; (2) following ball when &ge; 5 pins; (3) when rounds left &le; following balls left, following ball when &ge; 1 pin";
+var motivationConditionDiv;
+
 //storage variables for data keeping purposes
 var alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
 var monthlyWealth = {};
@@ -50,6 +55,13 @@ function recordIPAddressData() {
         commaSepString = IPaddress + commaSepString; //add IP address to string to return
     });
 
+}
+
+function setMotivationCondition(conditionString) {
+    if (motivationConditions) {
+        motivationConditionDiv = document.getElementById("motivationConditions");
+        motivationConditionDiv.innerHTML = conditionString;
+    }
 }
 
 function makeRectangle(color, leftpadding, toppadding, botpadding = 0, inlineBlock) {
@@ -213,13 +225,17 @@ function spendFirstIncome() {
 
 }
 
-function payFirst() {
-    //disable play game button
+function initPlayGame(isPayFirst) {
     document.getElementById("playGame").disabled = true;
-
-    createUniqueCode(function() {
-
+    setMotivationCondition(processCondition);
+    if (isPayFirst) {
         option = "pay first";
+    } else {
+        option = "spend first";
+    }
+    createUniqueCode(function() {
+        var isPayFirst = isPayFirst;
+        //option = option;
         jsonData["condition"] = option;
         commaSepString = commaSepString + sep + option; //ADD THE DATA
 
@@ -236,38 +252,68 @@ function payFirst() {
 
         var nextRound = document.getElementById('nextRound');
         nextRound.onclick = function() {
-            NextRound(true);
+            NextRound(isPayFirst);
         }
     });
 }
 
+function payFirst() {
+    initPlayGame(true);
+
+    /*
+        createUniqueCode(function() {
+
+            option = "pay first";
+            jsonData["condition"] = option;
+            commaSepString = commaSepString + sep + option; //ADD THE DATA
+
+            console.log("commaSepString" + commaSepString);
+
+            createInitialDivs();
+            firstPayments();
+
+            var rollBall = document.getElementById('rollBall');
+
+            rollBall.onclick = function() {
+                RollBall();
+            }
+
+            var nextRound = document.getElementById('nextRound');
+            nextRound.onclick = function() {
+                NextRound(true);
+            }
+        });
+        */
+}
+
 function spendFirst() {
     //disable play game button
-    document.getElementById("playGame").disabled = true;
+    initPlayGame(false);
+    /*
+        createUniqueCode(function() {
 
-    createUniqueCode(function() {
+            option = "spend first";
+            jsonData["condition"] = option;
+            commaSepString = commaSepString + sep + option; //ADD THE DATA
 
-        option = "spend first";
-        jsonData["condition"] = option;
-        commaSepString = commaSepString + sep + option; //ADD THE DATA
+            createInitialDivs();
 
-        createInitialDivs();
+            spendFirstIncome();
 
-        spendFirstIncome();
+            totalBalls = 23;
 
-        totalBalls = 23;
+            var rollBall = document.getElementById('rollBall');
 
-        var rollBall = document.getElementById('rollBall');
+            rollBall.onclick = function() {
+                RollBall();
+            }
 
-        rollBall.onclick = function() {
-            RollBall();
-        }
-
-        var nextRound = document.getElementById('nextRound');
-        nextRound.onclick = function() {
-            NextRound(false);
-        }
-    });
+            var nextRound = document.getElementById('nextRound');
+            nextRound.onclick = function() {
+                NextRound(false);
+            }
+        });
+        */
 }
 
 function createUniqueCode(callback) {
@@ -351,7 +397,7 @@ var choicesArray = [];
 var timesArray = [];
 
 function RollBall() {
-    console.log("cuurent month: "+currentMonth.toString());
+    console.log("cuurent month: " + currentMonth.toString());
     var timeHit = timestamp();
     //hide and disable the button
     $('#rollBall').hide();
@@ -364,7 +410,7 @@ function RollBall() {
         return;
 
     }
-    if(currentMonth==3 && myWealth<=8){
+    if (currentMonth == 3 && myWealth <= 8) {
         gameUpdates.innerHTML = "You cannot go into debt in the last month. Please proceed to next round";
         $('#nextRound').show();
         return;
@@ -577,11 +623,11 @@ function generatePinsKnockedDown(pinsLeft) {
 
 function recordArraysData() {
     //record data
-    commaSepString = commaSepString + sep+"[" + wealthArray.toString() + "]";
-    commaSepString = commaSepString + sep+"[" + moneyEarnedArray.toString() + "]";
-    commaSepString = commaSepString + sep+"[" + pinsRemainingArray.toString() + "]";
-    commaSepString = commaSepString + sep+ "[" + choicesArray.toString() + "]";
-    commaSepString = commaSepString + sep+"[" + timesArray.toString() + "]";
+    commaSepString = commaSepString + sep + "[" + wealthArray.toString() + "]";
+    commaSepString = commaSepString + sep + "[" + moneyEarnedArray.toString() + "]";
+    commaSepString = commaSepString + sep + "[" + pinsRemainingArray.toString() + "]";
+    commaSepString = commaSepString + sep + "[" + choicesArray.toString() + "]";
+    commaSepString = commaSepString + sep + "[" + timesArray.toString() + "]";
     console.log(commaSepString);
 
     //reset the arrays for next round
@@ -592,7 +638,7 @@ function recordArraysData() {
     timesArray = [];
 }
 
-function setCurrentDay(){
+function setCurrentDay() {
     //set current day
     currDay = 1;
     currDayString = dayBorder('#C3D0DC', currDay.toString());
@@ -604,7 +650,7 @@ function setCurrentDay(){
             currDay = currDay + 3;
             var tempString = dayBorder('#C3D0DC', currDay.toString());
         }
-        console.log("currDay string: "+currDay.toString());
+        console.log("currDay string: " + currDay.toString());
         if (currDay != 31) {
             currDayString = currDayString + rectangle + tempString;
         }
@@ -687,7 +733,7 @@ function NextRound(payFirst) {
                 jsonData["game_1"] = {};
                 monthlyWealth[timestamp()] = myWealth; //store the data
                 moneyEarned[timestamp()] = totalScore;
-    
+
 
                 current_month.innerHTML = "<span style='background:#C3D0DC;'>SEPT</span> <span style='background:#5481C1;'>OCT</span> <span style='background:#C3D0DC;'>NOV</span> <span style='background:#C3D0DC;'>DEC</span>";
                 if (payFirst) {
@@ -753,9 +799,9 @@ function sendDataToBackend() {
 }
 
 function updateTotalScore(knockedDown) {
-    totalScore = totalScore + knockedDown*.05;
+    totalScore = totalScore + knockedDown * .05;
     var score = document.getElementById("TotalScore");
-    score.innerHTML = "Money earned: $" +totalScore.toFixed(2);
+    score.innerHTML = "Money earned: $" + totalScore.toFixed(2);
     //"Money earned: " + format2(totalScore / 100.0, "$");
     fontFlash(score, 'green', 'bold');
 }
