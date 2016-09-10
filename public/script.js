@@ -16,8 +16,9 @@ var currDay = dayBorder('#5481C1', '1') + rectangle + dayBorder('#C3D0DC', '4') 
 var currDayString = currDay.toString();
 
 //motivation conditions
-var outcomeCondition = "End Goal: Try to make as much money as possible, and earn up to $13.75!";
-var processCondition = "Rules of Thumb: (1) 10 first balls; (2) following ball when &ge; 5 pins; (3) when rounds left &le; following balls left, following ball when &ge; 1 pin";
+var outcomeCondition = "<b>End Goal</b>: Try to make as much money as possible, and earn up to $13.75!";
+var processCondition = "<b>Rules of Thumb</b>: (1) 10 first balls; (2) following ball when &ge; 5 pins; (3) when rounds left &le; following balls left, following ball when &ge; 1 pin";
+var walkHomeFirstCondition = true;
 var motivationConditionDiv;
 
 //storage variables for data keeping purposes
@@ -225,7 +226,10 @@ function spendFirstIncome() {
 
 }
 
-function initPlayGame(isPayFirst) {
+var isPayFirst;
+
+function initPlayGame(_isPayFirst) {
+    isPayFirst = _isPayFirst;
     document.getElementById("playGame").disabled = true;
     setMotivationCondition(processCondition);
     if (isPayFirst) {
@@ -233,88 +237,86 @@ function initPlayGame(isPayFirst) {
     } else {
         option = "spend first";
     }
-    createUniqueCode(function() {
-        var isPayFirst = isPayFirst;
-        //option = option;
-        jsonData["condition"] = option;
-        commaSepString = commaSepString + sep + option; //ADD THE DATA
+    //createUniqueCode(function() {
+    //option = option;
+    jsonData["condition"] = option;
+    commaSepString = commaSepString + sep + option; //ADD THE DATA
 
-        console.log("commaSepString" + commaSepString);
+    console.log("commaSepString" + commaSepString);
 
-        createInitialDivs();
-        firstPayments();
+    createInitialDivs();
+    firstPayments();
 
-        var rollBall = document.getElementById('rollBall');
+    var rollBall = document.getElementById('rollBall');
 
-        rollBall.onclick = function() {
-            RollBall();
-        }
+    rollBall.onclick = function() {
+        RollBall();
+    }
 
-        var nextRound = document.getElementById('nextRound');
-        nextRound.onclick = function() {
+    var nextRound = document.getElementById('nextRound');
+    nextRound.onclick = function() {
+        $("#gameUpdates").empty();
+        if (walkHomeFirstCondition) {
+            walkHomeFirst(function() {
+                console.log(isPayFirst);
+                NextRound(isPayFirst);
+            });
+        } else {
             NextRound(isPayFirst);
         }
-    });
+    };
+    //});
 }
 
 function payFirst() {
     initPlayGame(true);
-
-    /*
-        createUniqueCode(function() {
-
-            option = "pay first";
-            jsonData["condition"] = option;
-            commaSepString = commaSepString + sep + option; //ADD THE DATA
-
-            console.log("commaSepString" + commaSepString);
-
-            createInitialDivs();
-            firstPayments();
-
-            var rollBall = document.getElementById('rollBall');
-
-            rollBall.onclick = function() {
-                RollBall();
-            }
-
-            var nextRound = document.getElementById('nextRound');
-            nextRound.onclick = function() {
-                NextRound(true);
-            }
-        });
-        */
 }
 
 function spendFirst() {
     //disable play game button
     initPlayGame(false);
-    /*
-        createUniqueCode(function() {
-
-            option = "spend first";
-            jsonData["condition"] = option;
-            commaSepString = commaSepString + sep + option; //ADD THE DATA
-
-            createInitialDivs();
-
-            spendFirstIncome();
-
-            totalBalls = 23;
-
-            var rollBall = document.getElementById('rollBall');
-
-            rollBall.onclick = function() {
-                RollBall();
-            }
-
-            var nextRound = document.getElementById('nextRound');
-            nextRound.onclick = function() {
-                NextRound(false);
-            }
-        });
-        */
 }
+
+var numWalks;
+
+function walkHomeFirst(callback) {
+    numWalks = 0;
+    $("#rollBall").hide();
+    $("#nextRound").hide();
+    $("#walkHomeButton").show();
+    $("#figure1").show();
+    var gameGUI = document.getElementById("gameGUI");
+    gameGUI.innerHTML = '<div id="figure1" class="stick" style="top:300px;">' +
+        '<div class="head">Hero</div>' +
+        '<div class="body"></div>' +
+        '<div class="lefthand part"><div></div></div>' +
+        '<div class="righthand part"><div></div></div>' +
+        '<div class="leftfoot part"><div></div></div>' +
+        '<div class="rightfoot part"><div></div></div>' +
+        '</div>';
+    var walkHomeButton = document.createElement("button");
+    walkHomeButton.id = "walkHomeButton";
+    gameGUI.appendChild(walkHomeButton);
+    walkHomeButton.setAttribute("onclick", "beginWalking(" /* + numWalks + "," */ + callback + ")");
+
+
+}
+
+function beginWalking( /*numWalks, */ callback) {
+    $(document).ready(function() {
+        numWalks++;
+        console.log("numWalks: " + numWalks.toString());
+        var figure1 = $('#figure1').stick();
+        figure1.walk(1);
+        if (numWalks >= 10) {
+            console.log("Clicked 10 times");
+            $("#walkHomeButton").hide();
+            $("#figure1").hide();
+            callback();
+        }
+    });
+}
+
 
 function createUniqueCode(callback) {
     var code = document.getElementById("uniqueCode");
@@ -338,11 +340,8 @@ function getUniqueCode(callback) {
     var button = document.getElementById("uniquecodebutton");
     var input = document.getElementById("uniqueCodeID");
     var uniqueCode = input.value;
-    console.log("Unique code: " + uniqueCode);
-    //record the code
     jsonData["unique_code"] = uniqueCode;
 
-    console.log("Comma sep string with unique id: " + commaSepString);
     commaSepString = commaSepString + sep + uniqueCode;
     if (uniqueCode) {
         initial.parentNode.removeChild(initial);
@@ -438,11 +437,6 @@ function RollBall() {
  * so all the pins in this array need to be knocked down in the blink function
  */
 function createList(start, end, start1, end1, callback) {
-    console.log("Start: " + start.toString());
-    console.log("End: " + end.toString());
-
-    console.log("Start1: " + start1.toString());
-    console.log("End1: " + end1.toString());
     var ints = [];
     for (var i = start; i < end; i++) {
         //console.log(i);
@@ -456,7 +450,6 @@ function createList(start, end, start1, end1, callback) {
             ints.push(j);
         }
     }
-    console.log(ints);
     callback(ints);
 }
 
@@ -468,13 +461,7 @@ var allpins = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 function blink(start, end, start1 = 0, end1 = 0, knockedDown, callback = function() {}) {
     createList(start, end, start1, end1, function(ints) {
         var originalInts = ints;
-        console.log('originalInts IN BLINK');
-        console.log(originalInts);
         ints.reverse();
-        //ints.push(10); //dummy to push since the blink function removes the last element
-
-        //var tempArr = [];
-        //setBlinkInInterval(ints, tempArr, callback);
         setBlinkInIntervalWithRep(ints, originalInts, knockedDown, callback);
     })
 }
@@ -501,10 +488,7 @@ function setPinsBackToNormal() {
 
 //also blink to the number of knocked down pins
 function setBlinkInIntervalWithRep(ints, originalInts, knockedDown, callback) {
-    console.log("originalInts in setBlinkInIntervalWithRep");
     var original = originalInts.slice();
-    console.log("Original:");
-    console.log(original);
     var tempArr = [];
     var interval = setInterval(function() {
         if (ints.length == 0) {
@@ -533,8 +517,6 @@ function addKnockedDownPinsToArr(originalInts, knockedDown) {
     for (var i = 1; i <= knockedDown; i++) {
         knockedDownPinsArr.push(startPin + i);
     }
-    console.log("knockedDownPinsArr");
-    console.log(knockedDownPinsArr);
 
     return knockedDownPinsArr.reverse();
 }
@@ -542,14 +524,13 @@ function addKnockedDownPinsToArr(originalInts, knockedDown) {
 
 //I think there's something wrong with this function that's causing the animation bug 9/9/16 come back later
 function performBlink(tempArr) {
-    console.log("temparr: ");
-    console.log(tempArr);
     for (var i = 0; i < tempArr.length; i++) {
         if (tempArr[i] == 10) {} else {
             var bowlingPin = document.getElementById('bowlingPin_' + tempArr[i].toString());
             bowlingPin.src = "bowling_pin_transparent.png";
         }
     }
+    //uncomment below to get flashing back
     /*
     setTimeout(function() {
         for (var j = 0; j < tempArr.length; j++) {
@@ -563,7 +544,6 @@ function performBlink(tempArr) {
 
 
 function flashPins(pinsLeft, knockedDown, callback) {
-    console.log("flashing pins");
     //drawPins();
     if (pinsLeft > 5 && pinsLeft != 10) {
         //console.log("Pins left greater than 5");
@@ -680,7 +660,9 @@ function NextRound(payFirst) {
         circlePositions.push(i);
     }
 
-    document.getElementById("pins").remove();
+    if (!walkHomeFirstCondition) {
+        document.getElementById("pins").remove();
+    }
     drawPins();
     setCurrentDay();
 
