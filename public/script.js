@@ -195,16 +195,16 @@ function showContinue(round) {
 }
 
 function firstPayments() {
-    if (start_15){
-        myWealth=myWealth+15;
-    }else{
-        myWealth=myWealth+23;
+    if (start_15) {
+        myWealth = myWealth + 15;
+    } else {
+        myWealth = myWealth + 23;
     }
     var continueAfterBills = document.getElementById('continueAfterBills');
     continueAfterBills.setAttribute('onclick', 'showContinue(1)');
 
     var gameUpdates = document.getElementById("gameUpdates");
-    gameUpdates.innerHTML = "You <span style='color:green;'>receive </span>"+myWealth.toString()+" Francs in income this month";
+    gameUpdates.innerHTML = "You <span style='color:green;'>receive </span>" + myWealth.toString() + " Francs in income this month";
     wealth.innerHTML = wealthRect + "<span style='background:#5481C1; padding:5px 8px 5px 8px;'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
     fontFlash(wealth, "green", "bold", function() {
         $('#continueAfterBills').show();
@@ -491,6 +491,8 @@ function setBlinkInInterval(ints, callback) {
         }
 
         tempArr.push(ints.pop());
+        console.log("temparr:");
+        console.log(tempArr);
         performBlink(tempArr);
 
     }, 70);
@@ -514,13 +516,16 @@ function setBlinkInIntervalWithRep(ints, originalInts, knockedDown, callback) {
                 updateGUI(original.length); //CHANGE THE 10 TO THE NUM OF PINS CURRENTLY KNOCKED DOWN
 
                 //console.log("Pins left to keep grey: "+newArr.reverse()[0].toString());
+                newArr.shift();
+                console.log("newArr: ");
+                console.log(newArr);
                 setBlinkInInterval(newArr, callback);
-            }, 75);
+            }, 50);
         }
         tempArr.push(ints.pop());
         performBlink(tempArr);
 
-    }, 75);
+    }, 50);
 }
 
 function addKnockedDownPinsToArr(originalInts, knockedDown) {
