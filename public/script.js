@@ -177,7 +177,7 @@ function showContinue(round) {
     console.log("In showContinue");
     var gameUpdates = document.getElementById("gameUpdates");
 
-    if (round == 1) {
+    if (round == 1 && !start_15) {
         myWealth = myWealth - 8;
         wealth.innerHTML = wealthRect + "<span style='background:#5481C1; padding:5px 8px 5px 8px;'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
         fontFlash(wealth, "red", "bold", function() {
@@ -186,7 +186,7 @@ function showContinue(round) {
             continueAfterBills.setAttribute('onclick', 'showContinue(2)');
             $('#continueAfterBills').show();
         });
-    } else if (round == 2) {
+    } else if (round == 2 || start_15) {
         gameUpdates.innerHTML = "You may begin.";
         var continueAfterBills = document.getElementById('continueAfterBills');
         continueAfterBills.setAttribute('onclick', 'showButtons()');
@@ -195,13 +195,16 @@ function showContinue(round) {
 }
 
 function firstPayments() {
+    if (start_15){
+        myWealth=myWealth+15;
+    }else{
+        myWealth=myWealth+23;
+    }
     var continueAfterBills = document.getElementById('continueAfterBills');
     continueAfterBills.setAttribute('onclick', 'showContinue(1)');
 
     var gameUpdates = document.getElementById("gameUpdates");
-    gameUpdates.innerHTML = "You <span style='color:green;'>receive</span> 23 Francs in income this month";
-
-    myWealth = myWealth + 23;
+    gameUpdates.innerHTML = "You <span style='color:green;'>receive </span>"+myWealth.toString()+" Francs in income this month";
     wealth.innerHTML = wealthRect + "<span style='background:#5481C1; padding:5px 8px 5px 8px;'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
     fontFlash(wealth, "green", "bold", function() {
         $('#continueAfterBills').show();
@@ -278,15 +281,16 @@ function spendFirst() {
 }
 
 var numWalks;
-var stepsRequired=50;
+var stepsRequired = 50;
 var stepsLeftText;
+
 function walkHomeFirst(callback) {
     numWalks = 0;
     $("#rollBall").hide();
     $("#nextRound").hide();
     $("#walkHomeButton").show();
     $("#figure1").show();
-    var gameButtons=document.getElementById("gameButtons");
+    var gameButtons = document.getElementById("gameButtons");
     var gameGUI = document.getElementById("gameGUI");
     gameGUI.innerHTML = '<div id="figure1" class="stick" style="top:300px;">' +
         '<div class="head">You</div>' +
@@ -297,15 +301,15 @@ function walkHomeFirst(callback) {
         '<div class="rightfoot part"><div></div></div>' +
         '</div>';
     //show number of walks
-    stepsLeftText= document.createElement("div");
-    stepsLeftText.id="stepsLeft";
-    stepsLeftText.innerHTML="Steps left: "+(stepsRequired-numWalks);
+    stepsLeftText = document.createElement("div");
+    stepsLeftText.id = "stepsLeft";
+    stepsLeftText.innerHTML = "Steps left: " + (stepsRequired - numWalks);
     gameGUI.appendChild(stepsLeftText);
 
     //walk home button
     var walkHomeButton = document.createElement("button");
     walkHomeButton.id = "walkHomeButton";
-    walkHomeButton.innerHTML="Walk Home";
+    walkHomeButton.innerHTML = "Walk Home";
     gameButtons.appendChild(walkHomeButton);
     walkHomeButton.setAttribute("onclick", "beginWalking(" /* + numWalks + "," */ + callback + ")");
 
@@ -315,7 +319,7 @@ function walkHomeFirst(callback) {
 function beginWalking( /*numWalks, */ callback) {
     $(document).ready(function() {
         numWalks++;
-        stepsLeftText.innerHTML="Steps left: "+(stepsRequired-numWalks);
+        stepsLeftText.innerHTML = "Steps left: " + (stepsRequired - numWalks);
         console.log("numWalks: " + numWalks.toString());
         var figure1 = $('#figure1').stick();
         figure1.walk(1);
