@@ -283,7 +283,7 @@ function spendFirst() {
 var numWalks;
 var stepsRequired = 50;
 var stepsLeftText;
-
+var sprite;
 function walkHomeFirst(callback) {
     numWalks = 0;
     $("#rollBall").hide();
@@ -292,14 +292,23 @@ function walkHomeFirst(callback) {
     $("#figure1").show();
     var gameButtons = document.getElementById("gameButtons");
     var gameGUI = document.getElementById("gameGUI");
-    gameGUI.innerHTML = '<div id="figure1" class="stick" style="top:300px;">' +
-        '<div class="head">You</div>' +
-        '<div class="body"></div>' +
-        '<div class="lefthand part"><div></div></div>' +
-        '<div class="righthand part"><div></div></div>' +
-        '<div class="leftfoot part"><div></div></div>' +
-        '<div class="rightfoot part"><div></div></div>' +
-        '</div>';
+
+    gameGUI.innerHTML = '<div class="sprite right"></div>'
+    sprite = document.querySelector('.sprite'),
+            key = { left: false, right: false },
+            trans = 0,
+            property = getTransformProperty(sprite);
+        /*
+        gameGUI.innerHTML = '<div id="figure1" class="stick" style="top:300px;">' +
+            '<div class="head">You</div>' +
+            '<div class="body"></div>' +
+            '<div class="lefthand part"><div></div></div>' +
+            '<div class="righthand part"><div></div></div>' +
+            '<div class="leftfoot part"><div></div></div>' +
+            '<div class="rightfoot part"><div></div></div>' +
+            '</div>';
+        */
+
     //show number of walks
     stepsLeftText = document.createElement("div");
     stepsLeftText.id = "stepsLeft";
@@ -317,18 +326,27 @@ function walkHomeFirst(callback) {
 }
 
 function beginWalking( /*numWalks, */ callback) {
-    $(document).ready(function() {
+    //$(document).ready(function() {
+        /*
+        var sprite = document.querySelector('.sprite'),
+            key = { left: false, right: false },
+            trans = 0,
+            property = getTransformProperty(sprite);
+        */
+        walk(sprite, trans, property);
         numWalks++;
         stepsLeftText.innerHTML = "Steps left: " + (stepsRequired - numWalks);
-        console.log("numWalks: " + numWalks.toString());
-        var figure1 = $('#figure1').stick();
-        figure1.walk(1);
+        //var figure1 = $('#figure1').stick();
+        //figure1.walk(1);
+        setTimeout(function() {
+            stop(sprite);
+        },1000);
         if (numWalks >= stepsRequired) {
             $("#walkHomeButton").remove();
             $("#figure1").remove();
             callback();
         }
-    });
+    //});
 }
 
 
