@@ -231,7 +231,7 @@ function spendFirstIncome() {
 
 var isPayFirst;
 var sprite;
-var trans = 0;
+var trans=0;
 
 function initPlayGame(_isPayFirst) {
     isPayFirst = _isPayFirst;
@@ -288,7 +288,7 @@ function spendFirst() {
 }
 
 var numWalks;
-var stepsRequired = 10;
+var stepsRequired = 50;
 var stepsLeftText;
 
 function walkHomeFirst(callback) {
@@ -301,16 +301,16 @@ function walkHomeFirst(callback) {
     var gameGUI = document.getElementById("gameGUI");
 
     //gameGUI.innerHTML = '<div class="sprite right"></div>'
-    /*
-    gameGUI.innerHTML = '<div id="figure1" class="stick" style="top:300px;">' +
-        '<div class="head">You</div>' +
-        '<div class="body"></div>' +
-        '<div class="lefthand part"><div></div></div>' +
-        '<div class="righthand part"><div></div></div>' +
-        '<div class="leftfoot part"><div></div></div>' +
-        '<div class="rightfoot part"><div></div></div>' +
-        '</div>';
-    */
+        /*
+        gameGUI.innerHTML = '<div id="figure1" class="stick" style="top:300px;">' +
+            '<div class="head">You</div>' +
+            '<div class="body"></div>' +
+            '<div class="lefthand part"><div></div></div>' +
+            '<div class="righthand part"><div></div></div>' +
+            '<div class="leftfoot part"><div></div></div>' +
+            '<div class="rightfoot part"><div></div></div>' +
+            '</div>';
+        */
 
     //show number of walks
     stepsLeftText = document.createElement("div");
@@ -339,7 +339,7 @@ function beginWalking( /*numWalks, */ callback) {
     console.log("trans: " + trans.toString());
     console.log("property: " + property.toString());
     walk(sprite, trans, property);
-    trans += 10;
+    trans+=10;
     numWalks++;
     stepsLeftText.innerHTML = "Steps left: " + (stepsRequired - numWalks);
     //var figure1 = $('#figure1').stick();
@@ -437,25 +437,19 @@ function RollBall() {
     console.log("cuurent month: " + currentMonth.toString());
     var timeHit = timestamp();
     //hide and disable the button
-    if (!walkHomeFirstCondition) {
-        disableButtons();
-    }
-    //$('#rollBall').hide();
-    //$('#nextRound').hide();
+    $('#rollBall').hide();
+    $('#nextRound').hide();
 
     var gameUpdates = document.getElementById("gameUpdates");
     if (myWealth <= -15) {
         gameUpdates.innerHTML = "DEBT CAN'T BE MORE THAN 15 FRANCS. Please proceed to next round";
-        //$('#rollBall').prop("disabled",true);
-        $('#nextRound').prop("disabled", false);
-        //$('#nextRound').show();
+        $('#nextRound').show();
         return;
 
     }
     if (currentMonth == 3 && myWealth <= 8) {
         gameUpdates.innerHTML = "You cannot go into debt in the last month. Please proceed to next round";
-        //$('#nextRound').show();
-        $('#nextRound').prop("disabled", false);
+        $('#nextRound').show();
         return;
     }
 
@@ -636,14 +630,12 @@ function generatePinsKnockedDown(pinsLeft) {
         }
         if (totalPins == 0) {
             gameUpdates.innerHTML = "You've knocked down all the pins, please proceed to the next round";
-            $("#rollBall").prop("disabled",true);
         }
 
         //show/renable buttons
         setTimeout(function() {
             $('#rollBall').show();
             $('#nextRound').show();
-            enableButtons();
             $('#gameUpdates').html("");
         }, 250);
     });
@@ -689,21 +681,6 @@ function setCurrentDay() {
 }
 var gameUpdates;
 
-function showOnly2Buttons() {
-    $('#nextRound').show();
-    $('#rollBall').show();
-}
-
-function enableButtons() {
-    $('#nextRound').prop("disabled", false);
-    $('#rollBall').prop("disabled", false);
-}
-
-function disableButtons() {
-    $('#nextRound').prop("disabled", true);
-    $('#rollBall').prop("disabled", true);
-}
-
 function NextRound(payFirst) {
     var timeHit = timestamp();
     wealthArray.push(myWealth);
@@ -712,8 +689,8 @@ function NextRound(payFirst) {
     choicesArray.push("next");
     timesArray.push(timeHit);
 
-    //$('#rollBall').hide();
-    //$('#nextRound').hide();
+    $('#rollBall').hide();
+    $('#nextRound').hide();
 
     var gameUpdates = document.getElementById("gameUpdates");
     totalRounds = totalRounds - 1;
@@ -727,22 +704,18 @@ function NextRound(payFirst) {
     }
 
     if (!walkHomeFirstCondition) {
-        console.log("in !walkHomeFirstCondition");
-        //console.log(document.getElementById("pins"));
-        //document.getElementById("pins").remove();
+        document.getElementById("pins").remove();
     }
     drawPins();
     setCurrentDay();
+
 
     $('#day').html(currDayString);
 
     if (totalRounds != 0) {
         setTimeout(function() {
-            if (!walkHomeFirstCondition) {
-                enableButtons();
-            } else {
-                showOnly2Buttons();
-            }
+            $('#rollBall').show();
+            $('#nextRound').show();
         }, 250);
     } else {
         $('#pins').hide();
