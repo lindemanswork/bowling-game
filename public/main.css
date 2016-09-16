@@ -181,6 +181,9 @@ a {
     line-height: 1;
 }
 
+#gameUpdates{
+    margin-top: -10px !important;
+}
 
 #gameUpdates,#motivationConditions,#stepsLeft {
     text-align: center;

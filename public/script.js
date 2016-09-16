@@ -195,16 +195,19 @@ function showContinue(round) {
 }
 
 function firstPayments() {
+    var amount_received;
     if (start_15) {
+        amount_received=15;
         myWealth = myWealth + 15;
     } else {
+        amount_received=23;
         myWealth = myWealth + 23;
     }
     var continueAfterBills = document.getElementById('continueAfterBills');
     continueAfterBills.setAttribute('onclick', 'showContinue(1)');
 
     var gameUpdates = document.getElementById("gameUpdates");
-    gameUpdates.innerHTML = "You <span style='color:green;'>receive </span>" + myWealth.toString() + " Francs in income this month";
+    gameUpdates.innerHTML = "You <span style='color:green;'>receive </span>" + amount_received.toString() + " Francs in income this month";
     wealth.innerHTML = wealthRect + "<span style='background:#5481C1; padding:5px 8px 5px 8px;'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
     fontFlash(wealth, "green", "bold", function() {
         $('#continueAfterBills').show();
@@ -252,7 +255,11 @@ function initPlayGame(_isPayFirst) {
     console.log("commaSepString" + commaSepString);
 
     createInitialDivs();
-    firstPayments();
+    if (_isPayFirst) {
+        firstPayments();
+    } else {
+        spendFirstIncome();
+    }
 
     rollBall = document.getElementById('rollBall');
 
@@ -297,6 +304,7 @@ function walkHomeFirst(callback) {
     numWalks = 0;
     $("#rollBall").hide();
     $("#nextRound").hide();
+    $("#gameUpdates").show();
     $("#walkHomeButton").show();
     $("#figure1").show();
     var gameButtons = document.getElementById("gameButtons");
@@ -315,11 +323,14 @@ function walkHomeFirst(callback) {
     */
 
     //show number of walks
+    var gameUpdates = document.getElementById("gameUpdates");
+    /*
     stepsLeftText = document.createElement("div");
     stepsLeftText.id = "stepsLeft";
     stepsLeftText.innerHTML = "Steps left: " + (stepsRequired - numWalks);
     gameGUI.appendChild(stepsLeftText);
-
+    */
+    gameUpdates.innerHTML="Steps left: " + (stepsRequired - numWalks);
     //walk home button
     var walkHomeButton = document.createElement("button");
     walkHomeButton.id = "walkHomeButton";
@@ -338,18 +349,19 @@ function beginWalking( /*numWalks, */ callback) {
         trans = 0,
         property = getTransformProperty(sprite);
     */
-    console.log("trans: " + trans.toString());
-    console.log("property: " + property.toString());
+    var gameUpdates = document.getElementById("gameUpdates");
     walk(sprite, trans, property);
     trans += 10;
     numWalks++;
-    stepsLeftText.innerHTML = "Steps left: " + (stepsRequired - numWalks);
+    gameUpdates.innerHTML = "Steps left: " + (stepsRequired - numWalks);
     //var figure1 = $('#figure1').stick();
     //figure1.walk(1);
     setTimeout(function() {
         stop(sprite);
     }, 1000);
     if (numWalks >= stepsRequired) {
+        trans=0; //reset trans
+        $("#gameUpdates").hide();
         $("#walkHomeButton").remove();
         $(".sprite").remove();
         callback();
@@ -442,7 +454,7 @@ function RollBall() {
     if (!walkHomeFirstCondition) {
         disableButtons();
     } else {
-        document.getElementById("rollBall").disabled=true;
+        document.getElementById("rollBall").disabled = true;
 
     }
     //$('#rollBall').hide();
@@ -641,7 +653,7 @@ function generatePinsKnockedDown(pinsLeft) {
         }
         if (totalPins == 0) {
             gameUpdates.innerHTML = "You've knocked down all the pins, please proceed to the next round";
-            document.getElementById("rollBall").disabled=true;
+            document.getElementById("rollBall").disabled = true;
             $("#rollBall").prop("disabled", true);
             $("#nextRound").prop("disabled", false);
             return;
@@ -652,7 +664,7 @@ function generatePinsKnockedDown(pinsLeft) {
         setTimeout(function() {
             $('#rollBall').show();
             $('#nextRound').show();
-            document.getElementById("rollBall").disabled=false; //jquery doesn't work to enable the button for walkfirstcondition for some reason
+            document.getElementById("rollBall").disabled = false; //jquery doesn't work to enable the button for walkfirstcondition for some reason
             if (!walkHomeFirstCondition) { enableButtons(); }
             $('#gameUpdates').html("");
         }, 250);
@@ -752,12 +764,13 @@ function NextRound(payFirst) {
                 enableButtons();
             } else {
                 showOnly2Buttons();
-                document.getElementById("rollBall").disabled=false;
+                document.getElementById("rollBall").disabled = false;
             }
         }, 250);
     } else {
         $('#pins').hide();
-        //out of rounds for the month
+        $("#rollBall").hide();
+        $("#nextRound").hide();
         if (payFirst) {
             //createCustomAlert("You have reached 10 games. The month is now over");
             gameUpdates.innerHTML = "You have reached 10 games. The month is now over";
@@ -981,7 +994,7 @@ function createInitialDivs() {
     var gameUpdates = document.createElement("div");
     gameUpdates.id = "gameUpdates";
     middleStuff.appendChild(gameUpdates);
-
+/*
     var roundsleft = document.createElement("div");
     roundsleft.id = "RoundsLeft";
     middleStuff.appendChild(roundsleft);
@@ -989,7 +1002,7 @@ function createInitialDivs() {
     var ballsleft = document.createElement("div");
     ballsleft.id = "BallsLeft";
     middleStuff.appendChild(ballsleft);
-
+*/
     var gameButtons = document.createElement("div")
     gameButtons.id = "gameButtons";
     middleStuff.appendChild(gameButtons);
