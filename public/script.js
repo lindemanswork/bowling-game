@@ -233,6 +233,8 @@ var isPayFirst;
 var sprite;
 var trans = 0;
 
+var rollBall;
+
 function initPlayGame(_isPayFirst) {
     isPayFirst = _isPayFirst;
     document.getElementById("playGame").disabled = true;
@@ -252,7 +254,7 @@ function initPlayGame(_isPayFirst) {
     createInitialDivs();
     firstPayments();
 
-    var rollBall = document.getElementById('rollBall');
+    rollBall = document.getElementById('rollBall');
 
     rollBall.onclick = function() {
         RollBall();
@@ -439,6 +441,9 @@ function RollBall() {
     //hide and disable the button
     if (!walkHomeFirstCondition) {
         disableButtons();
+    } else {
+        document.getElementById("rollBall").disabled=true;
+
     }
     //$('#rollBall').hide();
     //$('#nextRound').hide();
@@ -636,14 +641,19 @@ function generatePinsKnockedDown(pinsLeft) {
         }
         if (totalPins == 0) {
             gameUpdates.innerHTML = "You've knocked down all the pins, please proceed to the next round";
-            $("#rollBall").prop("disabled",true);
+            document.getElementById("rollBall").disabled=true;
+            $("#rollBall").prop("disabled", true);
+            $("#nextRound").prop("disabled", false);
+            return;
+
         }
 
         //show/renable buttons
         setTimeout(function() {
             $('#rollBall').show();
             $('#nextRound').show();
-            enableButtons();
+            document.getElementById("rollBall").disabled=false; //jquery doesn't work to enable the button for walkfirstcondition for some reason
+            if (!walkHomeFirstCondition) { enableButtons(); }
             $('#gameUpdates').html("");
         }, 250);
     });
@@ -742,6 +752,7 @@ function NextRound(payFirst) {
                 enableButtons();
             } else {
                 showOnly2Buttons();
+                document.getElementById("rollBall").disabled=false;
             }
         }, 250);
     } else {
