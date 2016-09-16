@@ -230,6 +230,8 @@ function spendFirstIncome() {
 }
 
 var isPayFirst;
+var sprite;
+var trans=0;
 
 function initPlayGame(_isPayFirst) {
     isPayFirst = _isPayFirst;
@@ -259,7 +261,12 @@ function initPlayGame(_isPayFirst) {
     var nextRound = document.getElementById('nextRound');
     nextRound.onclick = function() {
         $("#gameUpdates").empty();
+        var gameGUI = document.getElementById("gameGUI");
+        gameGUI.innerHTML = '<div class="sprite right"></div>'
         if (walkHomeFirstCondition) {
+            sprite = document.querySelector('.sprite'),
+                key = { left: false, right: false },
+                property = getTransformProperty(sprite);
             walkHomeFirst(function() {
                 console.log(isPayFirst);
                 NextRound(isPayFirst);
@@ -283,7 +290,7 @@ function spendFirst() {
 var numWalks;
 var stepsRequired = 50;
 var stepsLeftText;
-var sprite;
+
 function walkHomeFirst(callback) {
     numWalks = 0;
     $("#rollBall").hide();
@@ -293,11 +300,7 @@ function walkHomeFirst(callback) {
     var gameButtons = document.getElementById("gameButtons");
     var gameGUI = document.getElementById("gameGUI");
 
-    gameGUI.innerHTML = '<div class="sprite right"></div>'
-    sprite = document.querySelector('.sprite'),
-            key = { left: false, right: false },
-            trans = 0,
-            property = getTransformProperty(sprite);
+    //gameGUI.innerHTML = '<div class="sprite right"></div>'
         /*
         gameGUI.innerHTML = '<div id="figure1" class="stick" style="top:300px;">' +
             '<div class="head">You</div>' +
@@ -327,25 +330,28 @@ function walkHomeFirst(callback) {
 
 function beginWalking( /*numWalks, */ callback) {
     //$(document).ready(function() {
-        /*
-        var sprite = document.querySelector('.sprite'),
-            key = { left: false, right: false },
-            trans = 0,
-            property = getTransformProperty(sprite);
-        */
-        walk(sprite, trans, property);
-        numWalks++;
-        stepsLeftText.innerHTML = "Steps left: " + (stepsRequired - numWalks);
-        //var figure1 = $('#figure1').stick();
-        //figure1.walk(1);
-        setTimeout(function() {
-            stop(sprite);
-        },1000);
-        if (numWalks >= stepsRequired) {
-            $("#walkHomeButton").remove();
-            $("#figure1").remove();
-            callback();
-        }
+    /*
+    var sprite = document.querySelector('.sprite'),
+        key = { left: false, right: false },
+        trans = 0,
+        property = getTransformProperty(sprite);
+    */
+    console.log("trans: " + trans.toString());
+    console.log("property: " + property.toString());
+    walk(sprite, trans, property);
+    trans+=10;
+    numWalks++;
+    stepsLeftText.innerHTML = "Steps left: " + (stepsRequired - numWalks);
+    //var figure1 = $('#figure1').stick();
+    //figure1.walk(1);
+    setTimeout(function() {
+        stop(sprite);
+    }, 1000);
+    if (numWalks >= stepsRequired) {
+        $("#walkHomeButton").remove();
+        $(".sprite").remove();
+        callback();
+    }
     //});
 }
 

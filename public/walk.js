@@ -1,4 +1,5 @@
 function getTransformProperty(element) {
+	console.log(element.className);
     var properties = [
         'transform',
         'WebkitTransform',
@@ -16,6 +17,7 @@ function getTransformProperty(element) {
 }
 
 function translate(sprite, trans, property) {
+	console.log("translating image!: "+ trans.toString() +"px, property: "+property);
     sprite.style[property] = 'translateX(' + trans + 'px)';
 }
 
@@ -29,7 +31,7 @@ function walk(sprite, trans, property) {
     }
     if (key.right === true) {
     	*/
-    trans += 10;
+    //trans += 10;
     translate(sprite, trans, property);
     sprite.classList.remove('left');
     sprite.classList.add('right');
@@ -54,14 +56,17 @@ function stop(sprite) {
         key.left = false;
     }
     if (key.right === false) {
-    	*/
+    */
+    	
     sprite.classList.remove('walk-right');
     /*
     }
+    
     if (key.left === false) {
         sprite.classList.remove('walk-left');
     }
     */
+    
 }
 
 document.addEventListener('keydown', walk, false);
