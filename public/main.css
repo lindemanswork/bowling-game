@@ -54,13 +54,17 @@ input[type="text"].focus {
 }
 
 #gameGUI{
-    height: 150px !important;
+    height: 160px !important;
+}
+
+#middleStuff{
+    height: 140px !important;
 }
 
 #gameButtons{
     height: 50px !important;
-    margin-bottom: 20px;
-    margin-top: 50px;
+    margin-bottom: 10px;
+    margin-top: 40px;
 }
 #gameGUI, #middleStuff{
     height: 20%;
@@ -259,8 +263,8 @@ a {
     text-decoration: none;
 }
 
-#pins {
-    margin-top: 30px;
+#blankspace {
+    margin-top: 10px;
 }
 
 .bowlingPins {
