@@ -71,7 +71,9 @@ input[type="text"].focus {
 
 /* Buttons */
 
-
+#playGame{
+    display:none;
+}
 
 button,.btn {
     background: #E28564; /*orange color*/
