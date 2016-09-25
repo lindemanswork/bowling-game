@@ -635,6 +635,7 @@ function flashPins(pinsLeft, knockedDown, callback) {
 
 //returns number of pins knocked down
 function generatePinsKnockedDown(pinsLeft) {
+    $('#gameUpdates').html("Roll ball");
     var gameUpdates = document.getElementById("gameUpdates");
     //generate random number of pins knocked down
     var knockedDown = Math.floor((Math.random() * (pinsLeft + 1)));
@@ -666,7 +667,7 @@ function generatePinsKnockedDown(pinsLeft) {
             $('#nextRound').show();
             document.getElementById("rollBall").disabled = false; //jquery doesn't work to enable the button for walkfirstcondition for some reason
             if (!walkHomeFirstCondition) { enableButtons(); }
-            $('#gameUpdates').html("Roll ball");
+            
         }, 250);
     });
 

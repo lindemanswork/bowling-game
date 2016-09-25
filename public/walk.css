@@ -1,11 +1,11 @@
 .sprite {
-	width: 102px;
+	width: 70px;
 	height: 148px;
 	margin-top: 40px;
 }
 
 .right {
-	background-image: url(http://atomicrobotdesign.com/blog_media/css-sprite/standing-right.png);
+	background-image: url('standing_guy.png');
 }
 
 .left {
@@ -13,7 +13,7 @@
 }
 
 .walk-right {
-	background-image: url(http://atomicrobotdesign.com/blog_media/css-sprite/walk-right.png);
+	background-image: url(walking_guy_frames.png);/*walking_guy_frames.png*/
 	-webkit-animation: walk .9s steps(6) infinite;
 	-moz-animation: walk .9s steps(6) infinite;
 	-ms-animation: walk .9s steps(6) infinite;
