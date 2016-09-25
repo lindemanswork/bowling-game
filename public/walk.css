@@ -1,5 +1,5 @@
 .sprite {
-	width: 70px;
+	width: 82px;
 	height: 148px;
 	margin-top: 40px;
 }
@@ -14,39 +14,39 @@
 
 .walk-right {
 	background-image: url(walking_guy_frames.png);/*walking_guy_frames.png*/
-	-webkit-animation: walk .9s steps(6) infinite;
-	-moz-animation: walk .9s steps(6) infinite;
-	-ms-animation: walk .9s steps(6) infinite;
-	-o-animation: walk .9s steps(6) infinite;
-	animation: walk .9s steps(6) infinite;
+	-webkit-animation: walk 1.9s steps(8) infinite;
+	-moz-animation: walk 1.9s steps(8) infinite;
+	-ms-animation: walk 1.9s steps(8) infinite;
+	-o-animation: walk 1.9s steps(8) infinite;
+	animation: walk 1.9s steps(8) infinite;
 }
 
 .walk-left {
 	background-image: url(http://atomicrobotdesign.com/blog_media/css-sprite/walk-left.png);
-	-webkit-animation: walk .9s steps(6) infinite;
-	-moz-animation: walk .9s steps(6) infinite;
-	-ms-animation: walk .9s steps(6) infinite;
-	-o-animation: walk .9s steps(6) infinite;
-	animation: walk .9s steps(6) infinite;
+	-webkit-animation: walk 1.9s steps(8) infinite;
+	-moz-animation: walk 1.9s steps(8) infinite;
+	-ms-animation: walk 1.9s steps(8) infinite;
+	-o-animation: walk 1.9s steps(8) infinite;
+	animation: walk 1.9s steps(8) infinite;
 }
 
 @-webkit-keyframes walk {
 	from { background-position: 0px; }
-	to { background-position: -612px; }
+	to { background-position: -687px; }
 }
 @-moz-keyframes walk {
 	from { background-position: 0px; }
-	to { background-position: -612px; }
+	to { background-position: -687px; }
 }
 @-ms-keyframes walk {
 	from { background-position: 0px; }
-	to { background-position: -612px; }
+	to { background-position: -687px; }
 }
 @-o-keyframes walk {
 	from { background-position: 0px; }
-	to { background-position: -612px; }
+	to { background-position: -687px; }
 }
 @-keyframes walk {
 	from { background-position: 0px; }
-	to { background-position: -612px; }
+	to { background-position: -687px; }
 }
