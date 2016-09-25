@@ -336,6 +336,7 @@ function walkHomeFirst(callback) {
     walkHomeButton.id = "walkHomeButton";
     walkHomeButton.innerHTML = "Walk Home";
     gameButtons.appendChild(walkHomeButton);
+    $("#gameGUI").append("<img id='house' src='house.png'>");
     walkHomeButton.setAttribute("onclick", "beginWalking(" /* + numWalks + "," */ + callback + ")");
 
 
@@ -350,6 +351,7 @@ function beginWalking( /*numWalks, */ callback) {
         property = getTransformProperty(sprite);
     */
     var gameUpdates = document.getElementById("gameUpdates");
+    //add house
     walk(sprite, trans, property);
     trans += 10;
     numWalks++;
@@ -363,6 +365,7 @@ function beginWalking( /*numWalks, */ callback) {
         trans = 0; //reset trans
         $("#gameUpdates").html(" ");
         $("#walkHomeButton").remove();
+        $("#house").remove();
         $(".sprite").remove();
         callback();
     }
