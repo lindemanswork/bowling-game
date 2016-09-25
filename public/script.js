@@ -330,7 +330,7 @@ function walkHomeFirst(callback) {
     stepsLeftText.innerHTML = "Steps left: " + (stepsRequired - numWalks);
     gameGUI.appendChild(stepsLeftText);
     */
-    gameUpdates.innerHTML = "Steps left: " + (stepsRequired - numWalks);
+    gameUpdates.innerHTML = "<div id='stepsLeft'>Steps left: " + (stepsRequired - numWalks)+"</div>";
     //walk home button
     var walkHomeButton = document.createElement("button");
     walkHomeButton.id = "walkHomeButton";
@@ -355,7 +355,7 @@ function beginWalking( /*numWalks, */ callback) {
     walk(sprite, trans, property);
     trans += 10;
     numWalks++;
-    gameUpdates.innerHTML = "Steps left: " + (stepsRequired - numWalks);
+    gameUpdates.innerHTML = "<div id='stepsLeft'>Steps left: " + (stepsRequired - numWalks)+"</div>";
     //var figure1 = $('#figure1').stick();
     //figure1.walk(1);
     setTimeout(function() {
