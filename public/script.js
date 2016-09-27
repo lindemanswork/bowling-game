@@ -297,12 +297,13 @@ function spendFirst() {
 }
 
 var numWalks;
-var stepsRequired = 50;
+var stepsRequired = 10;
 var stepsLeftText;
 
 function walkHomeFirst(callback) {
     numWalks = 0;
     $("#rollBall").attr("disabled","disabled");
+    $("#rollBall").css('background-color','grey');
     $("#nextRound").hide();
     $("#walkHomeButton").show();
     $("#figure1").show();
@@ -338,6 +339,7 @@ function beginWalking(callback) {
         $("#walkHomeButton").prop("disabled",false);
     }, 1000);
     if (numWalks >= stepsRequired) {
+        $("#rollBall").css('background-color','');
         trans = 0; //reset trans
         $("#gameUpdates").html(" ");
         $("#walkHomeButton").remove();
@@ -621,8 +623,6 @@ function generatePinsKnockedDown(pinsLeft) {
         //console.log("Knocked down: " + knockedDown);
         if (totalPins >= knockedDown) { //can't knock down more pins than are still standing
             totalPins = totalPins - knockedDown; //update total Pins count
-            //console.log("Pins left: " + totalPins);
-
             updateTotalScore(knockedDown);
             updateGUI(totalPins);
         } else { //do it again
@@ -634,7 +634,6 @@ function generatePinsKnockedDown(pinsLeft) {
             $("#rollBall").prop("disabled", true);
             $("#nextRound").prop("disabled", false);
             return;
-
         }
 
         //show/renable buttons
@@ -711,9 +710,6 @@ function NextRound(payFirst) {
     choicesArray.push("next");
     timesArray.push(timeHit);
 
-    //$('#rollBall').hide();
-    //$('#nextRound').hide();
-
     var gameUpdates = document.getElementById("gameUpdates");
     totalRounds = totalRounds - 1;
     totalPins = 10; //reset total number of pins
@@ -727,8 +723,6 @@ function NextRound(payFirst) {
 
     if (!walkHomeFirstCondition) {
         console.log("in !walkHomeFirstCondition");
-        //console.log(document.getElementById("pins"));
-        //document.getElementById("pins").remove();
     }
     drawPins();
     setCurrentDay();
@@ -998,7 +992,7 @@ function createInitialDivs() {
 
     var totalScore = document.createElement("div");
     totalScore.id = "TotalScore";
-    totalScore.innerHTML = "Money earned: ";
+    totalScore.innerHTML = "Money earned: $0";
     game.appendChild(totalScore);
 
 
@@ -1012,85 +1006,4 @@ function killGame() {
     $(":button").on('click', function() {
         $(this).prop("disabled", true);
     })
-}
-/*------------------Write results---------------------*/
-function createFile(text) {
-
-    var hiddenElement = document.createElement('a');
-
-    hiddenElement.href = 'data:attachment/text,' + encodeURI(text);
-    hiddenElement.target = '_blank';
-    hiddenElement.download = 'bowlingInfo.txt';
-    hiddenElement.click();
-
-}
-
-function writeEmail() {
-    var addresses = "spothorse9.lucy@gmail.com"; //between the speech mark goes the receptient. Seperate addresses with a ;
-    var body = option + ":" + JSON.stringify(monthlyWealth) + JSON.stringify(moneyEarned) //write the message text between the speech marks or put a variable in the place of the speech marks
-    var subject = "Bowling game results" //between the speech marks goes the subject of the message
-    var href = "mailto:" + addresses + "?" + "subject=" + subject + "&" + "body=" + body;
-    var wndMail;
-    wndMail = window.open(href, "_blank", "scrollbars=yes,resizable=yes,width=10,height=10");
-    if (wndMail) {
-        wndMail.close();
-    }
-}
-
-function testEmail() {
-    var addresses = "spothorse9.lucy@gmail.com"; //between the speech mark goes the receptient. Seperate addresses with a ;
-    var body = "HIHIHI" //write the message text between the speech marks or put a variable in the place of the speech marks
-    var subject = "Bowling game results" //between the speech marks goes the subject of the message
-    var href = "mailto:" + addresses + "?" + "subject=" + subject + "&" + "body=" + body;
-    var wndMail;
-    wndMail = window.open(href, "_blank", "scrollbars=yes,resizable=yes,width=10,height=10");
-    console.log("in testing email");
-    if (wndMail) {
-        wndMail.close();
-    }
-}
-
-//testEmail();
-/*---------------------Custom alert box------------------------*/
-var ALERT_TITLE = "Wealth update!";
-var ALERT_BUTTON_TEXT = "Ok";
-
-function createCustomAlert(txt) {
-    d = document;
-
-    if (d.getElementById("modalContainer")) return;
-
-    mObj = d.getElementsByTagName("body")[0].appendChild(d.createElement("div"));
-    mObj.id = "modalContainer";
-    mObj.style.height = d.documentElement.scrollHeight + "px";
-
-    alertObj = mObj.appendChild(d.createElement("div"));
-    alertObj.id = "alertBox";
-    if (d.all && !window.opera) alertObj.style.top = document.documentElement.scrollTop + "px";
-    alertObj.style.left = (d.documentElement.scrollWidth - alertObj.offsetWidth) / 2 + "px";
-    alertObj.style.visiblity = "visible";
-
-    h1 = alertObj.appendChild(d.createElement("h1"));
-    h1.appendChild(d.createTextNode(ALERT_TITLE));
-
-    msg = alertObj.appendChild(d.createElement("p"));
-    //msg.appendChild(d.createTextNode(txt));
-    msg.innerHTML = txt;
-
-    btn = alertObj.appendChild(d.createElement("a"));
-    btn.id = "closeBtn";
-    btn.appendChild(d.createTextNode(ALERT_BUTTON_TEXT));
-    btn.href = "#";
-    btn.focus();
-    btn.onclick = function() {
-        removeCustomAlert();
-        return false;
-    }
-
-    alertObj.style.display = "block";
-
-}
-
-function removeCustomAlert() {
-    document.getElementsByTagName("body")[0].removeChild(document.getElementById("modalContainer"));
 }
