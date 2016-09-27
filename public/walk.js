@@ -22,51 +22,14 @@ function translate(sprite, trans, property) {
 }
 
 function walk(sprite, trans, property) {
-    /*
-    var keyCode = e.keyCode;
-    if (keyCode === 39) {
-        key.right = true;
-    } else if (keyCode === 37) {
-        key.left = true;
-    }
-    if (key.right === true) {
-    	*/
-    //trans += 10;
     translate(sprite, trans, property);
     sprite.classList.remove('left');
     sprite.classList.add('right');
     sprite.classList.add('walk-right');
-    /*
-    } else if (key.left === true) {
-        trans -= 10;
-        translate();
-        sprite.classList.remove('right');
-        sprite.classList.add('left');
-        sprite.classList.add('walk-left');
-    }
-    */
 }
 
 function stop(sprite) {
-    /*
-    var keyCode = e.keyCode;
-    if (keyCode === 39) {
-        key.right = false;
-    } else if (keyCode === 37) {
-        key.left = false;
-    }
-    if (key.right === false) {
-    */
-    	
     sprite.classList.remove('walk-right');
-    /*
-    }
-    
-    if (key.left === false) {
-        sprite.classList.remove('walk-left');
-    }
-    */
-    
 }
 
 document.addEventListener('keydown', walk, false);
