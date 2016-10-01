@@ -323,11 +323,11 @@ function walkHomeFirst(callback) {
 
 }
 
-var distanceTraveled = 15;
 function beginWalking(callback) {
     //disable the button so that the guy can complete walking
     $("#walkHomeButton").prop("disabled",true);
     var gameUpdates = document.getElementById("gameUpdates");
+    var distanceTraveled = $("#gameGUI").width()/(stepsRequired+1);
     //add house
     walk(sprite, trans, property);
     trans += distanceTraveled;
