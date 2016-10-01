@@ -302,8 +302,8 @@ var stepsLeftText;
 
 function walkHomeFirst(callback) {
     numWalks = 0;
-    $("#rollBall").attr("disabled","disabled");
-    $("#rollBall").css('background-color','grey');
+    $("#rollBall").attr("disabled", "disabled");
+    $("#rollBall").css('background-color', 'grey');
     $("#nextRound").hide();
     $("#walkHomeButton").show();
     $("#figure1").show();
@@ -325,9 +325,9 @@ function walkHomeFirst(callback) {
 
 function beginWalking(callback) {
     //disable the button so that the guy can complete walking
-    $("#walkHomeButton").prop("disabled",true);
+    $("#walkHomeButton").prop("disabled", true);
     var gameUpdates = document.getElementById("gameUpdates");
-    var distanceTraveled = $("#gameGUI").width()/(stepsRequired+1);
+    var distanceTraveled = $("#gameGUI").width() / (stepsRequired + 1);
     //add house
     walk(sprite, trans, property);
     trans += distanceTraveled;
@@ -336,16 +336,22 @@ function beginWalking(callback) {
 
     setTimeout(function() {
         stop(sprite);
-        $("#walkHomeButton").prop("disabled",false);
+        $("#walkHomeButton").prop("disabled", false);
     }, 1000);
     if (numWalks >= stepsRequired) {
-        $("#rollBall").css('background-color','');
         trans = 0; //reset trans
         $("#gameUpdates").html(" ");
         $("#walkHomeButton").remove();
         $("#nextRound").show();
+        $("#nextRound").prop("disabled",true);
+        $("#nextRound").css("background-color","grey");
         $("#house").remove();
         $(".sprite").remove();
+        setTimeout(function() {
+            enableButtons();
+            $("#rollBall").css('background-color', '');
+            $("#nextRound").css("background-color","");
+        }, 1000);
         callback();
     }
 }
