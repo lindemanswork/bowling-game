@@ -302,6 +302,7 @@ var stepsLeftText;
 
 function walkHomeFirst(callback) {
     numWalks = 0;
+
     $("#rollBall").attr("disabled", "disabled");
     $("#rollBall").css('background-color', 'grey');
     $("#nextRound").hide();
@@ -340,17 +341,18 @@ function beginWalking(callback) {
     }, 1000);
     if (numWalks >= stepsRequired) {
         trans = 0; //reset trans
-        $("#gameUpdates").html(" ");
+        $("#gameUpdates").html("<span style='color:red;font-weight:bold;font-size:30px;'>New day</span>");
         $("#walkHomeButton").remove();
         $("#nextRound").show();
-        $("#nextRound").prop("disabled",true);
-        $("#nextRound").css("background-color","grey");
-        $("#house").remove();
-        $(".sprite").remove();
+        $("#nextRound").prop("disabled", true);
+        $("#nextRound").css("background-color", "grey");
+        $("#house").hide();
+        $(".sprite").hide();
         setTimeout(function() {
             enableButtons();
+            $("#gameUpdates").html("New day");
             $("#rollBall").css('background-color', '');
-            $("#nextRound").css("background-color","");
+            $("#nextRound").css("background-color", "");
         }, 1000);
         callback();
     }
