@@ -277,9 +277,15 @@ function initPlayGame(_isPayFirst) {
                 key = { left: false, right: false },
                 property = getTransformProperty(sprite);
             walkHomeFirst(function() {
-                console.log(isPayFirst);
                 NextRound(isPayFirst);
             });
+            /*
+            if (okToWalk){
+                console.log("It's ok to walk now")
+                NextRound(isPayFirst);
+                okToWalk=false;
+            }
+            */
         } else {
             NextRound(isPayFirst);
         }
@@ -296,15 +302,17 @@ function spendFirst() {
     initPlayGame(false);
 }
 
-var numWalks;
-var stepsRequired = 10;
+var numWalks; //clicks of walk home button
+var stepsRequired = 20;
 var stepsLeftText;
 
 function walkHomeFirst(callback) {
+    console.log("walkHomeFirst button called");
     numWalks = 0;
 
     $("#rollBall").attr("disabled", "disabled");
     $("#rollBall").css('background-color', 'grey');
+    $("#nextRound").prop("disabled", "disabled");
     $("#nextRound").hide();
     $("#walkHomeButton").show();
     $("#figure1").show();
@@ -320,42 +328,73 @@ function walkHomeFirst(callback) {
     gameButtons.appendChild(walkHomeButton);
     $("#gameGUI").append("<img id='house' src='house.png'>");
     walkHomeButton.setAttribute("onclick", "beginWalking(" + callback + ")");
+}
 
+function executeAsync(func) {
+    setTimeout(func, 0);
+}
+var oldNumWalks = 0;
+
+function actualWalking() {
+    if (oldNumWalks != numWalks) {
+        var diff = numWalks - oldNumWalks;
+        console.log("Difference between old and new walk: "+diff);
+        for (var i = 0; i < diff; i++) {
+            var distanceTraveled = $("#gameGUI").width() / (stepsRequired + 1);
+            walk(sprite, trans, property);
+            setTimeout(function() {
+                trans += distanceTraveled;
+            }, 1000*diff);
+        }
+        oldNumWalks = numWalks;
+    }
+}
+
+var okToWalk = false;
+var i = 0
+
+function beginWalking(callback) {
+    if (i >= 20) {
+        console.log("num times beginWalking has been called: " + i);
+    }
+    i++;
+    $("#nextRound").prop("disabled", true);
+
+    numWalks++;
+    //disable the button so that the guy can complete walking
+    //$("#walkHomeButton").prop("disabled", true);
+    var gameUpdates = document.getElementById("gameUpdates");
+    gameUpdates.innerHTML = "<div id='stepsLeft'>Steps left: " + (stepsRequired - numWalks) + "</div>";
+
+    actualWalking();
+    if (numWalks >= stepsRequired) {
+        var walkHomeButton = document.getElementById("walkHomeButton");
+        walkHomeButton.setAttribute("onclick", "");
+        $("#nextRound").prop("disabled", "disabled");
+        $("#walkHomeButton").remove();
+        $("#house").hide();
+        $(".sprite").hide();
+
+        console.log('END WALKING');
+        trans = 0; //reset trans
+        $("#gameUpdates").html("<span style='color:red;font-weight:bold;font-size:30px;'>New day</span>");
+        console.log("Ready to show next round button");
+        callback();
+
+    }
 
 }
 
-function beginWalking(callback) {
-    //disable the button so that the guy can complete walking
-    $("#walkHomeButton").prop("disabled", true);
-    var gameUpdates = document.getElementById("gameUpdates");
-    var distanceTraveled = $("#gameGUI").width() / (stepsRequired + 1);
-    //add house
-    walk(sprite, trans, property);
-    trans += distanceTraveled;
-    numWalks++;
-    gameUpdates.innerHTML = "<div id='stepsLeft'>Steps left: " + (stepsRequired - numWalks) + "</div>";
-
+function tempGreyOutThenEnableButtons() {
+    showOnly2Buttons();
+    $("#nextRound").css("background-color", "grey");
     setTimeout(function() {
-        stop(sprite);
-        $("#walkHomeButton").prop("disabled", false);
+        console.log("in setTimeout of beginWalking");
+        $("#gameUpdates").html("New day");
+        $("#rollBall").css('background-color', '');
+        $("#nextRound").css("background-color", "");
+        enableButtons();
     }, 1000);
-    if (numWalks >= stepsRequired) {
-        trans = 0; //reset trans
-        $("#gameUpdates").html("<span style='color:red;font-weight:bold;font-size:30px;'>New day</span>");
-        $("#walkHomeButton").remove();
-        $("#nextRound").show();
-        $("#nextRound").prop("disabled", true);
-        $("#nextRound").css("background-color", "grey");
-        $("#house").hide();
-        $(".sprite").hide();
-        setTimeout(function() {
-            enableButtons();
-            $("#gameUpdates").html("New day");
-            $("#rollBall").css('background-color', '');
-            $("#nextRound").css("background-color", "");
-        }, 1000);
-        callback();
-    }
 }
 
 
@@ -687,7 +726,7 @@ function setCurrentDay() {
             currDay = currDay + 3;
             var tempString = dayBorder('#C3D0DC', currDay.toString());
         }
-        console.log("currDay string: " + currDay.toString());
+        //console.log("currDay string: " + currDay.toString());
         if (currDay != 31) {
             currDayString = currDayString + rectangle + tempString;
         }
@@ -711,6 +750,7 @@ function disableButtons() {
 }
 
 function NextRound(payFirst) {
+    console.log("next round clicked")
     var timeHit = timestamp();
     wealthArray.push(myWealth);
     moneyEarnedArray.push(totalScore);
@@ -730,7 +770,7 @@ function NextRound(payFirst) {
     }
 
     if (!walkHomeFirstCondition) {
-        console.log("in !walkHomeFirstCondition");
+        //console.log("in !walkHomeFirstCondition");
     }
     drawPins();
     setCurrentDay();
@@ -742,7 +782,7 @@ function NextRound(payFirst) {
             if (!walkHomeFirstCondition) {
                 enableButtons();
             } else {
-                showOnly2Buttons();
+                tempGreyOutThenEnableButtons();
                 document.getElementById("rollBall").disabled = false;
             }
         }, 250);
@@ -753,7 +793,7 @@ function NextRound(payFirst) {
         if (payFirst) {
             //createCustomAlert("You have reached 10 games. The month is now over");
             gameUpdates.innerHTML = "You have reached 10 games. The month is now over";
-            console.log(myWealth);
+            //console.log(myWealth);
 
             currentMonth = currentMonth + 1;
 
@@ -783,7 +823,7 @@ function NextRound(payFirst) {
 
             var current_month = document.getElementById("month");
 
-            console.log(currentMonth);
+            //console.log(currentMonth);
             if (currentMonth == 1) {
                 jsonData["game_1"] = {};
                 monthlyWealth[timestamp()] = myWealth; //store the data

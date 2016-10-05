@@ -17,7 +17,7 @@ function getTransformProperty(element) {
 }
 
 function translate(sprite, trans, property) {
-	console.log("translating image!: "+ trans.toString() +"px, property: "+property);
+	//console.log("translating image!: "+ trans.toString() +"px, property: "+property);
     sprite.style[property] = 'translateX(' + trans + 'px)';
 }
 
