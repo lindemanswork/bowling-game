@@ -5,14 +5,18 @@ var totalPins = 10; //changes
 var totalScore = 0;
 var currentMonth = 0;
 var myWealth = 0;
+var red = "#FF0000";
+var lightBlue = "#C3D0DC";
+var darkBlue = "#5481C1";
+var monthColors = { "SEPT": lightBlue, "OCT": lightBlue, "NOV": lightBlue, "DEC": lightBlue };
 
 var rectangle = makeRectangle("#DFE4EA", '17px', '5px', 0, true); //day & month rectangle
 var wealthRect = makeRectangle("#DFE4EA", '25%', '5px', '5px', false);
 
-var currDay = dayBorder('#5481C1', '1') + rectangle + dayBorder('#C3D0DC', '4') + rectangle + dayBorder('#C3D0DC', '7') +
-    rectangle + dayBorder('#C3D0DC', '10') + rectangle + dayBorder('#C3D0DC', '13') + rectangle +
-    dayBorder('#C3D0DC', '16') + rectangle + dayBorder('#C3D0DC', '19') + rectangle +
-    dayBorder('#C3D0DC', '22') + rectangle + dayBorder('#C3D0DC', '25') + rectangle + dayBorder('#C3D0DC', '28');
+var currDay = dayBorder(darkBlue, '1') + rectangle + dayBorder(lightBlue, '4') + rectangle + dayBorder(lightBlue, '7') +
+    rectangle + dayBorder(lightBlue, '10') + rectangle + dayBorder(lightBlue, '13') + rectangle +
+    dayBorder(lightBlue, '16') + rectangle + dayBorder(lightBlue, '19') + rectangle +
+    dayBorder(lightBlue, '22') + rectangle + dayBorder(lightBlue, '25') + rectangle + dayBorder(lightBlue, '28');
 var currDayString = currDay.toString();
 
 //motivation conditions
@@ -179,7 +183,7 @@ function showContinue(round) {
 
     if (round == 1 && !start_15) {
         myWealth = myWealth - 8;
-        wealth.innerHTML = wealthRect + "<span style='background:#5481C1; padding:5px 8px 5px 8px;'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
+        wealth.innerHTML = wealthRect + "<span style='background:"+darkBlue+"; padding:5px 8px 5px 8px;'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
         fontFlash(wealth, "red", "bold", function() {
             gameUpdates.innerHTML = 'You <span style="color:red;"">pay</span> 8 Francs for your bowling membership bill';
             var continueAfterBills = document.getElementById('continueAfterBills');
@@ -208,7 +212,7 @@ function firstPayments() {
 
     var gameUpdates = document.getElementById("gameUpdates");
     gameUpdates.innerHTML = "You <span style='color:green;'>receive </span>" + amount_received.toString() + " Francs in income this month";
-    wealth.innerHTML = wealthRect + "<span style='background:#5481C1; padding:5px 8px 5px 8px;'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
+    wealth.innerHTML = wealthRect + "<span style='background:"+darkBlue+"; padding:5px 8px 5px 8px;'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
     fontFlash(wealth, "green", "bold", function() {
         $('#continueAfterBills').show();
     });
@@ -224,7 +228,7 @@ function spendFirstIncome() {
 
     //createCustomAlert("You receive 23 Francs in income this month");
     myWealth = myWealth + 23;
-    wealth.innerHTML = wealthRect + "<span style='background:#5481C1; padding:5px 8px 5px 8px;'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
+    wealth.innerHTML = wealthRect + "<span style='background:"+darkBlue+"; padding:5px 8px 5px 8px;'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
     fontFlash(wealth, "green", "bold", function() {
         $('#continueAfterBills').show();
     });
@@ -497,8 +501,8 @@ function RollBall() {
 
     //update balls left
     myWealth = myWealth - 1;
-    fontFlash(wealth, 'darkblue', 'bold', function() {
-        wealth.innerHTML = wealthRect + "<span style='background:#5481C1; padding:5px 8px 5px 8px;'>Wealth: " + myWealth.toString() + " Francs</span>" + wealthRect;
+    fontFlash(wealth, darkblue, 'bold', function() {
+        wealth.innerHTML = wealthRect + "<span style='background:"+darkBlue+"; padding:5px 8px 5px 8px;'>Wealth: " + myWealth.toString() + " Francs</span>" + wealthRect;
         fontFlash(wealth, 'red', 'bold');
     });
 
@@ -708,17 +712,17 @@ function recordArraysData() {
 function setCurrentDay() {
     //set current day
     currDay = 1;
-    currDayString = dayBorder('#C3D0DC', currDay.toString());
-    currDayStringRed = dayBorder('#C3D0DC', currDay.toString());
+    currDayString = dayBorder(lightBlue, currDay.toString());
+    currDayStringRed = dayBorder(lightBlue, currDay.toString());
     for (var j = 1; j <= 10; j++) {
         if (j == 10 - totalRounds) {
             currDay = currDay + 3;
-            var tempString = dayBorder('#5481C1', currDay.toString()); //the current day that's a darker blue
-            var tempStringRed = dayBorder('#FF0000', currDay.toString());
+            var tempString = dayBorder(darkBlue, currDay.toString()); //the current day that's a darker blue
+            var tempStringRed = dayBorder(red, currDay.toString());
         } else {
             currDay = currDay + 3;
-            var tempString = dayBorder('#C3D0DC', currDay.toString());
-            var tempStringRed = dayBorder('#C3D0DC', currDay.toString());
+            var tempString = dayBorder(lightBlue, currDay.toString());
+            var tempStringRed = dayBorder(lightBlue, currDay.toString());
         }
         if (currDay != 31) {
             currDayString = currDayString + rectangle + tempString;
@@ -795,7 +799,7 @@ function NextRound(payFirst) {
         } else if (!payFirst) { //spend first option
             gameUpdates.innerHTML = 'You pay 8 Francs for your bowling membership bill';
             myWealth = myWealth - 8;
-            wealth.innerHTML = wealthRect + "<span style='background:#5481C1; padding:5px 8px 5px 8px;'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
+            wealth.innerHTML = wealthRect + "<span style='backgrounddarkBlue padding:5px 8px 5px 8px;'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
             fontFlash(wealth, "red", "bold", function() {
                 gameUpdates.innerHTML = "You have reached 10 games. The month is now over";
                 currentMonth = currentMonth + 1;
@@ -837,21 +841,19 @@ function NextRound(payFirst) {
     }
 }
 
-var monthColors = { "SEPT": "#C3D0DC", "OCT": "#C3D0DC", "NOV": "#C3D0DC", "DEC": "#C3D0DC" };
-
 function setUpNewMonth(currentMonthDiv, monthString, payFirst) {
     //store the data
     monthlyWealth[timestamp()] = myWealth; //store the data
     moneyEarned[timestamp()] = totalScore;
 
     // prepare this month's color in dictionary
-    monthColors[monthString] = "#FF0000"; //red
+    monthColors[monthString] = red; //red
     currentMonthDiv.innerHTML = createMonthsDivHTML();
 
     setTimeout(function() {
-        monthColors[monthString] = "#5481C1";
+        monthColors[monthString] = darkBlue;
         currentMonthDiv.innerHTML = createMonthsDivHTML();
-    },500);
+    }, 500);
 
     if (payFirst) {
         firstPayments();
@@ -983,7 +985,8 @@ function createInitialDivs() {
 
     var month = document.createElement("div");
     month.id = "month";
-    month.innerHTML = "<span style='background:#5481C1;'>SEPT</span> <span style='background:#C3D0DC;'>OCT</span> <span style='background:#C3D0DC;'>NOV</span> <span style='background:#C3D0DC;'>DEC</span>";
+    monthColors["SEPT"]=darkBlue;
+    month.innerHTML = createMonthsDivHTML();
     updateArea.appendChild(month);
 
     var day = document.createElement("div");
