@@ -26,7 +26,6 @@ var processCondition = "<b>Rules of Thumb</b>: (1) 10 first balls; (2) following
 var motivationConditionDiv;
 
 //storage variables for data keeping purposes
-var alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
 var monthlyWealth = {};
 var moneyEarned = {};
 var option = "";
@@ -316,7 +315,7 @@ function walkHomeFirst(callback) {
     var gameGUI = document.getElementById("gameGUI");
     //show number of walks
     var gameUpdates = document.getElementById("gameUpdates");
-    gameUpdates.innerHTML = "<div id='stepsLeft'>Steps left: " + (stepsRequired - numWalks) + "</div>";
+    gameUpdates.innerHTML = "<div id='stepsLeft'>Steps left: " + (stepsRequired - numWalks)+"</div>";
     //walk home button
     var walkHomeButton = document.createElement("button");
     walkHomeButton.id = "walkHomeButton";

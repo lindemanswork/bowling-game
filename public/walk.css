@@ -1,11 +1,11 @@
 .sprite {
 	width: 82px;
-	height: 148px;
-	margin-top: 40px;
+	height: 145px;
 }
 
 .right {
 	background-image: url('standing_guy.png');
+	background-size: inherit;
 }
 
 .left {

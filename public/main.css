@@ -197,8 +197,8 @@ a {
 
 #gameUpdates,#motivationConditions,#stepsLeft {
     text-align: center;
-    margin-top: 1%;
-    margin-bottom: 2.5%;
+    margin-top: 10px;
+    margin-bottom: 10px;
     font-weight: normal;
     color: #000000;
     word-spacing: 2pt;
@@ -207,6 +207,9 @@ a {
     line-height: 1;
 }
 
+#motivationCondition{
+    height: 15px;
+}
 
 /*-------------------------alert box -------------------*/
 
