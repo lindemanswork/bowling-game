@@ -720,7 +720,6 @@ function setCurrentDay() {
             var tempString = dayBorder('#C3D0DC', currDay.toString());
             var tempStringRed = dayBorder('#C3D0DC', currDay.toString());
         }
-        //console.log("currDay string: " + currDay.toString());
         if (currDay != 31) {
             currDayString = currDayString + rectangle + tempString;
             currDayStringRed = currDayStringRed + rectangle + tempStringRed;
@@ -730,7 +729,6 @@ function setCurrentDay() {
     setTimeout(function() {
         $('#day').html(currDayString);
     },500);
-    //$('#day').html(currDayString);
 }
 var gameUpdates;
 
@@ -818,44 +816,16 @@ function NextRound(payFirst) {
             //reset to months
             totalRounds = 10;
             setCurrentDay();
-            //$('#day').html(currDayString);
-
-
             var current_month = document.getElementById("month");
-
-            //console.log(currentMonth);
             if (currentMonth == 1) {
                 jsonData["game_1"] = {};
-                monthlyWealth[timestamp()] = myWealth; //store the data
-                moneyEarned[timestamp()] = totalScore;
-
-
-                current_month.innerHTML = "<span style='background:#C3D0DC;'>SEPT</span> <span style='background:#5481C1;'>OCT</span> <span style='background:#C3D0DC;'>NOV</span> <span style='background:#C3D0DC;'>DEC</span>";
-                if (payFirst) {
-                    firstPayments();
-                } else {
-                    spendFirstIncome();
-                }
+                setUpNewMonth(current_month, "OCT", payFirst);
             } else if (currentMonth == 2) {
                 jsonData["game_2"] = {};
-                monthlyWealth[timestamp()] = myWealth;
-                moneyEarned[timestamp()] = totalScore;
-                current_month.innerHTML = "<span style='background:#C3D0DC;'>SEPT</span> <span style='background:#C3D0DC;'>OCT</span> <span style='background:#5481C1;'>NOV</span> <span style='background:#C3D0DC;'>DEC</span>";
-                if (payFirst) {
-                    firstPayments();
-                } else {
-                    spendFirstIncome();
-                };
+               setUpNewMonth(current_month, "NOV", payFirst);
             } else if (currentMonth == 3) {
                 jsonData["game_3"] = {};
-                monthlyWealth[timestamp()] = myWealth;
-                moneyEarned[timestamp()] = totalScore;
-                current_month.innerHTML = "<span style='background:#C3D0DC;'>SEPT</span> <span style='background:#C3D0DC;'>OCT</span> <span style='background:#C3D0DC;'>NOV</span> <span style='background:#5481C1;'>DEC</span>";
-                if (payFirst) {
-                    firstPayments();
-                } else {
-                    spendFirstIncome();
-                };
+                setUpNewMonth(current_month, "DEC", payFirst);
             } else if (currentMonth >= 4) {
                 //createCustomAlert("GAME OVER");
                 gameUpdates.innerHTML = "<b>GAME OVER</b>";
@@ -878,6 +848,36 @@ function NextRound(payFirst) {
         });
 
     }
+}
+
+var monthColors = {"SEPT":"#C3D0DC","OCT":"#C3D0DC","NOV":"#C3D0DC","DEC":"#C3D0DC"};
+
+function setUpNewMonth(currentMonthDiv, monthString, payFirst) {
+    //store the data
+    monthlyWealth[timestamp()] = myWealth; //store the data
+    moneyEarned[timestamp()] = totalScore;
+
+    // prepare this month's color in dictionary
+    monthColors[monthString]="#5481C1";
+    currentMonthDiv.innerHTML = createMonthsDivHTML();
+    if (payFirst) {
+        firstPayments();
+    } else {
+        spendFirstIncome();
+    }
+}
+
+
+function createMonthDivHTML(monthString, hexColor){
+    return "<span style='background:"+hexColor+";'>"+monthString+"</span>"
+}
+
+function createMonthsDivHTML(){
+    var html="";
+    for (var month in monthColors){
+        html = html+" "+createMonthDivHTML(month, monthColors[month]);
+    }
+    return html;
 }
 
 function sendDataToBackend() {
