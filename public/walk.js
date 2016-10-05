@@ -26,6 +26,7 @@ function walk(sprite, trans, property) {
     sprite.classList.remove('left');
     sprite.classList.add('right');
     sprite.classList.add('walk-right');
+    console.log("finished walk");
 }
 
 function stop(sprite) {

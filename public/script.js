@@ -279,18 +279,10 @@ function initPlayGame(_isPayFirst) {
             walkHomeFirst(function() {
                 NextRound(isPayFirst);
             });
-            /*
-            if (okToWalk){
-                console.log("It's ok to walk now")
-                NextRound(isPayFirst);
-                okToWalk=false;
-            }
-            */
         } else {
             NextRound(isPayFirst);
         }
     };
-    //});
 }
 
 function payFirst() {
@@ -303,7 +295,7 @@ function spendFirst() {
 }
 
 var numWalks; //clicks of walk home button
-var stepsRequired = 20;
+var stepsRequired = 30;
 var stepsLeftText;
 
 function walkHomeFirst(callback) {
@@ -342,15 +334,14 @@ function actualWalking() {
         for (var i = 0; i < diff; i++) {
             var distanceTraveled = $("#gameGUI").width() / (stepsRequired + 1);
             walk(sprite, trans, property);
-            setTimeout(function() {
+            //setTimeout(function() {
                 trans += distanceTraveled;
-            }, 1000*diff);
+            //}, 1000*diff);
         }
         oldNumWalks = numWalks;
     }
 }
 
-var okToWalk = false;
 var i = 0
 
 function beginWalking(callback) {
