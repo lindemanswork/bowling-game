@@ -728,7 +728,7 @@ function setCurrentDay() {
     $('#day').html(currDayStringRed);
     setTimeout(function() {
         $('#day').html(currDayString);
-    },500);
+    }, 500);
 }
 var gameUpdates;
 
@@ -789,10 +789,7 @@ function NextRound(payFirst) {
         $("#rollBall").hide();
         $("#nextRound").hide();
         if (payFirst) {
-            //createCustomAlert("You have reached 10 games. The month is now over");
             gameUpdates.innerHTML = "You have reached 10 games. The month is now over";
-            //console.log(myWealth);
-
             currentMonth = currentMonth + 1;
 
         } else if (!payFirst) { //spend first option
@@ -800,17 +797,13 @@ function NextRound(payFirst) {
             myWealth = myWealth - 8;
             wealth.innerHTML = wealthRect + "<span style='background:#5481C1; padding:5px 8px 5px 8px;'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
             fontFlash(wealth, "red", "bold", function() {
-                //createCustomAlert("You have reached 10 games. The month is now over");
                 gameUpdates.innerHTML = "You have reached 10 games. The month is now over";
-
                 currentMonth = currentMonth + 1;
-
             });
         }
     }
 
     if (totalRounds == 0) {
-
         NextMonthButton();
         $("#nextMonth").click(function() {
             //reset to months
@@ -822,17 +815,14 @@ function NextRound(payFirst) {
                 setUpNewMonth(current_month, "OCT", payFirst);
             } else if (currentMonth == 2) {
                 jsonData["game_2"] = {};
-               setUpNewMonth(current_month, "NOV", payFirst);
+                setUpNewMonth(current_month, "NOV", payFirst);
             } else if (currentMonth == 3) {
                 jsonData["game_3"] = {};
                 setUpNewMonth(current_month, "DEC", payFirst);
             } else if (currentMonth >= 4) {
-                //createCustomAlert("GAME OVER");
                 gameUpdates.innerHTML = "<b>GAME OVER</b>";
                 sendDataToBackend();
                 killGame();
-                //getData();
-
             }
 
             //reset total balls and rounds
@@ -843,14 +833,11 @@ function NextRound(payFirst) {
             setTimeout(function() {
                 $('#pins').show();
             }, 1700);
-
-
         });
-
     }
 }
 
-var monthColors = {"SEPT":"#C3D0DC","OCT":"#C3D0DC","NOV":"#C3D0DC","DEC":"#C3D0DC"};
+var monthColors = { "SEPT": "#C3D0DC", "OCT": "#C3D0DC", "NOV": "#C3D0DC", "DEC": "#C3D0DC" };
 
 function setUpNewMonth(currentMonthDiv, monthString, payFirst) {
     //store the data
@@ -858,8 +845,14 @@ function setUpNewMonth(currentMonthDiv, monthString, payFirst) {
     moneyEarned[timestamp()] = totalScore;
 
     // prepare this month's color in dictionary
-    monthColors[monthString]="#5481C1";
+    monthColors[monthString] = "#FF0000"; //red
     currentMonthDiv.innerHTML = createMonthsDivHTML();
+
+    setTimeout(function() {
+        monthColors[monthString] = "#5481C1";
+        currentMonthDiv.innerHTML = createMonthsDivHTML();
+    },500);
+
     if (payFirst) {
         firstPayments();
     } else {
@@ -867,15 +860,14 @@ function setUpNewMonth(currentMonthDiv, monthString, payFirst) {
     }
 }
 
-
-function createMonthDivHTML(monthString, hexColor){
-    return "<span style='background:"+hexColor+";'>"+monthString+"</span>"
+function createMonthDivHTML(monthString, hexColor) {
+    return "<span style='background:" + hexColor + ";'>" + monthString + "</span>"
 }
 
-function createMonthsDivHTML(){
-    var html="";
-    for (var month in monthColors){
-        html = html+" "+createMonthDivHTML(month, monthColors[month]);
+function createMonthsDivHTML() {
+    var html = "";
+    for (var month in monthColors) {
+        html = html + " " + createMonthDivHTML(month, monthColors[month]);
     }
     return html;
 }
