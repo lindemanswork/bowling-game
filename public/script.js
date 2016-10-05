@@ -330,12 +330,12 @@ var oldNumWalks = 0;
 function actualWalking() {
     if (oldNumWalks != numWalks) {
         var diff = numWalks - oldNumWalks;
-        console.log("Difference between old and new walk: "+diff);
+        console.log("Difference between old and new walk: " + diff);
         for (var i = 0; i < diff; i++) {
             var distanceTraveled = $("#gameGUI").width() / (stepsRequired + 1);
             walk(sprite, trans, property);
             //setTimeout(function() {
-                trans += distanceTraveled;
+            trans += distanceTraveled;
             //}, 1000*diff);
         }
         oldNumWalks = numWalks;
@@ -709,19 +709,28 @@ function setCurrentDay() {
     //set current day
     currDay = 1;
     currDayString = dayBorder('#C3D0DC', currDay.toString());
+    currDayStringRed = dayBorder('#C3D0DC', currDay.toString());
     for (var j = 1; j <= 10; j++) {
         if (j == 10 - totalRounds) {
             currDay = currDay + 3;
-            var tempString = dayBorder('#5481C1', currDay.toString());
+            var tempString = dayBorder('#5481C1', currDay.toString()); //the current day that's a darker blue
+            var tempStringRed = dayBorder('#FF0000', currDay.toString());
         } else {
             currDay = currDay + 3;
             var tempString = dayBorder('#C3D0DC', currDay.toString());
+            var tempStringRed = dayBorder('#C3D0DC', currDay.toString());
         }
         //console.log("currDay string: " + currDay.toString());
         if (currDay != 31) {
             currDayString = currDayString + rectangle + tempString;
+            currDayStringRed = currDayStringRed + rectangle + tempStringRed;
         }
     }
+    $('#day').html(currDayStringRed);
+    setTimeout(function() {
+        $('#day').html(currDayString);
+    },500);
+    //$('#day').html(currDayString);
 }
 var gameUpdates;
 
@@ -766,7 +775,7 @@ function NextRound(payFirst) {
     drawPins();
     setCurrentDay();
 
-    $('#day').html(currDayString);
+    //$('#day').html(currDayString);
 
     if (totalRounds != 0) {
         setTimeout(function() {
@@ -809,7 +818,7 @@ function NextRound(payFirst) {
             //reset to months
             totalRounds = 10;
             setCurrentDay();
-            $('#day').html(currDayString);
+            //$('#day').html(currDayString);
 
 
             var current_month = document.getElementById("month");
