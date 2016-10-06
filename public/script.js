@@ -44,24 +44,13 @@ jsonData["start_game"] = timestamp();
 jsonData["game_0"] = {};
 
 //check if user leaves site, record data if they decide to do so
-/*
+
 window.onbeforeunload = function(e) {
     console.log(e);
     var dialogText = 'Dialog text here';
     e.returnValue = dialogText;
+    sendDataToBackend();
     return dialogText;
-}
-*/
-window.onbeforeunload = function () {   
-  $('body').mousemove(checkunload);
-  return "Sure thing"; 
-};
-
-function checkunload() {   
-  $('body').unbind("mousemove");
-  console.log("leaving page");
-  console.log(commaSepString);
-  sendDataToBackend();
 }
 
 function recordIPAddressData() {
