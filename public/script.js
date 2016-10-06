@@ -43,14 +43,26 @@ commaSepString = commaSepString + sep + cah_url; //HERE NEED TO UPDATE STRING 9/
 jsonData["start_game"] = timestamp();
 jsonData["game_0"] = {};
 
-var margin = {
-        top: 50,
-        right: 100,
-        bottom: 200,
-        left: 100
-    },
-    width = 960 - margin.left - margin.right,
-    height = 600 - margin.top - margin.bottom;
+//check if user leaves site, record data if they decide to do so
+/*
+window.onbeforeunload = function(e) {
+    console.log(e);
+    var dialogText = 'Dialog text here';
+    e.returnValue = dialogText;
+    return dialogText;
+}
+*/
+window.onbeforeunload = function () {   
+  $('body').mousemove(checkunload);
+  return "Sure thing"; 
+};
+
+function checkunload() {   
+  $('body').unbind("mousemove");
+  console.log("leaving page");
+  console.log(commaSepString);
+  sendDataToBackend();
+}
 
 function recordIPAddressData() {
     $.getJSON('https://api.ipify.org?format=json', function(data) {
@@ -83,35 +95,6 @@ function dayBorder(color, number) {
     return dayBorder;
 }
 
-/*------------get info from form-------------*/
-function searchKeyPress(e) {
-    e = e || window.event;
-    if (e.keyCode == 13) {
-        document.getElementById('btnGo').click();
-        return false;
-    }
-    return true;
-}
-
-function submitData() {
-    name = document.getElementById("name").value;
-
-    document.getElementById("name").value = "Successfully submitted";
-
-    console.log(name);
-
-}
-
-
-function getData() {
-    var form = document.getElementById("personalInfo");
-    var getdata = document.createElement("input");
-    getdata.id = "getData";
-    getdata.type = "button";
-    getdata.value = "Get data";
-    getdata.setAttribute("onclick", "returnData()");
-    form.appendChild(getdata);
-}
 
 /*---------------------------------------FUNCTIONS--------------------------------------*/
 
@@ -182,7 +165,7 @@ function showContinue(round) {
 
     if (round == 1 && !start_15) {
         myWealth = myWealth - 8;
-        wealth.innerHTML = wealthRect + "<span style='background:"+darkBlue+"; padding:5px 8px 5px 8px;'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
+        wealth.innerHTML = wealthRect + "<span style='background:" + darkBlue + "; padding:5px 8px 5px 8px;'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
         fontFlash(wealth, "red", "bold", function() {
             gameUpdates.innerHTML = 'You <span style="color:red;"">pay</span> 8 Francs for your bowling membership bill';
             var continueAfterBills = document.getElementById('continueAfterBills');
@@ -211,7 +194,7 @@ function firstPayments() {
 
     var gameUpdates = document.getElementById("gameUpdates");
     gameUpdates.innerHTML = "You <span style='color:green;'>receive </span>" + amount_received.toString() + " Francs in income this month";
-    wealth.innerHTML = wealthRect + "<span style='background:"+darkBlue+"; padding:5px 8px 5px 8px;'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
+    wealth.innerHTML = wealthRect + "<span style='background:" + darkBlue + "; padding:5px 8px 5px 8px;'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
     fontFlash(wealth, "green", "bold", function() {
         $('#continueAfterBills').show();
     });
@@ -227,7 +210,7 @@ function spendFirstIncome() {
 
     //createCustomAlert("You receive 23 Francs in income this month");
     myWealth = myWealth + 23;
-    wealth.innerHTML = wealthRect + "<span style='background:"+darkBlue+"; padding:5px 8px 5px 8px;'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
+    wealth.innerHTML = wealthRect + "<span style='background:" + darkBlue + "; padding:5px 8px 5px 8px;'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
     fontFlash(wealth, "green", "bold", function() {
         $('#continueAfterBills').show();
     });
@@ -315,7 +298,7 @@ function walkHomeFirst(callback) {
     var gameGUI = document.getElementById("gameGUI");
     //show number of walks
     var gameUpdates = document.getElementById("gameUpdates");
-    gameUpdates.innerHTML = "<div id='stepsLeft'>Steps left: " + (stepsRequired - numWalks)+"</div>";
+    gameUpdates.innerHTML = "<div id='stepsLeft'>Steps left: " + (stepsRequired - numWalks) + "</div>";
     //walk home button
     var walkHomeButton = document.createElement("button");
     walkHomeButton.id = "walkHomeButton";
@@ -500,8 +483,8 @@ function RollBall() {
 
     //update balls left
     myWealth = myWealth - 1;
-    fontFlash(wealth, darkblue, 'bold', function() {
-        wealth.innerHTML = wealthRect + "<span style='background:"+darkBlue+"; padding:5px 8px 5px 8px;'>Wealth: " + myWealth.toString() + " Francs</span>" + wealthRect;
+    fontFlash(wealth, darkBlue, 'bold', function() {
+        wealth.innerHTML = wealthRect + "<span style='background:" + darkBlue + "; padding:5px 8px 5px 8px;'>Wealth: " + myWealth.toString() + " Francs</span>" + wealthRect;
         fontFlash(wealth, 'red', 'bold');
     });
 
@@ -984,7 +967,7 @@ function createInitialDivs() {
 
     var month = document.createElement("div");
     month.id = "month";
-    monthColors["SEPT"]=darkBlue;
+    monthColors["SEPT"] = darkBlue;
     month.innerHTML = createMonthsDivHTML();
     updateArea.appendChild(month);
 
@@ -1036,7 +1019,6 @@ function createInitialDivs() {
     totalScore.id = "TotalScore";
     totalScore.innerHTML = "Money earned: $0";
     game.appendChild(totalScore);
-
 
     $('#rollBall').hide();
     $('#nextRound').hide();
