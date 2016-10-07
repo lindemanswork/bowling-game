@@ -303,23 +303,55 @@ function executeAsync(func) {
 var oldNumWalks = 0;
 
 function actualWalking() {
+    console.log("Actual walking");
     if (oldNumWalks != numWalks) {
         var diff = numWalks - oldNumWalks;
         console.log("Difference between old and new walk: " + diff);
         for (var i = 0; i < diff; i++) {
             var distanceTraveled = $("#gameGUI").width() / (stepsRequired + 1);
-            walk(sprite, trans, property);
             setTimeout(function() {
+                walk(sprite, trans, property);
                 trans += distanceTraveled;
-            }, 1000*diff);
+                console.log("trans: " + trans);
+            }, 1000 * diff);
+
         }
         oldNumWalks = numWalks;
     }
 }
 
+//self invoking function, maybe this'll work?
+(function() {
+    setInterval(function() {
+        if (shouldBeWalking) {
+            console.log("should be walking");
+            actualWalking();
+            if (numWalks >= stepsRequired) {
+                $("#walkHomeButton").prop("disabled", "disabled");
+                timeEndWalking = performance.now();
+                if (Math.abs(timeEndWalking - timeFirstClickedBeginWalking) >= totalTimeWalkingShouldTake) {
+                    console.log("Stop walking!");
+                    stopWalking(walkingCallback);
+                }
+            }
+        }
+    }, 500);
+})();
+
 var i = 0
+var shouldBeWalking = false;
+//var doneWalking = false;
+var walkingCallback = "";
+var totalTimeWalkingShouldTake = stepsRequired * 1000;
+var timeFirstClickedBeginWalking = 0;
+var timeEndWalking = 0;
 
 function beginWalking(callback) {
+    if (i == 0) {
+        timeFirstClickedBeginWalking = performance.now();
+    }
+    walkingCallback = callback;
+    shouldBeWalking = true;
     if (i >= 20) {
         console.log("num times beginWalking has been called: " + i);
     }
@@ -332,8 +364,15 @@ function beginWalking(callback) {
     var gameUpdates = document.getElementById("gameUpdates");
     gameUpdates.innerHTML = "<div id='stepsLeft'>Steps left: " + (stepsRequired - numWalks) + "</div>";
 
-    actualWalking();
+    //actualWalking();
+    //stopWalking(callback);
+
+}
+
+function stopWalking(callback) {
     if (numWalks >= stepsRequired) {
+        //doneWalking = false;
+        shouldBeWalking = false;
         var walkHomeButton = document.getElementById("walkHomeButton");
         walkHomeButton.setAttribute("onclick", "");
         $("#nextRound").prop("disabled", "disabled");
@@ -348,7 +387,6 @@ function beginWalking(callback) {
         callback();
 
     }
-
 }
 
 function tempGreyOutThenEnableButtons() {
