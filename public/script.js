@@ -309,9 +309,9 @@ function actualWalking() {
         for (var i = 0; i < diff; i++) {
             var distanceTraveled = $("#gameGUI").width() / (stepsRequired + 1);
             walk(sprite, trans, property);
-            //setTimeout(function() {
-            trans += distanceTraveled;
-            //}, 1000*diff);
+            setTimeout(function() {
+                trans += distanceTraveled;
+            }, 1000*diff);
         }
         oldNumWalks = numWalks;
     }
