@@ -382,7 +382,7 @@ function stopWalking(callback) {
 
         console.log('END WALKING');
         trans = 0; //reset trans
-        $("#gameUpdates").html("<span style='color:red;font-weight:bold;font-size:30px;'>New day</span>");
+        //$("#gameUpdates").html("<span style='color:red;font-weight:bold;font-size:30px;'>New day</span>");
         console.log("Ready to show next round button");
         callback();
 
@@ -394,7 +394,7 @@ function tempGreyOutThenEnableButtons() {
     $("#nextRound").css("background-color", "grey");
     setTimeout(function() {
         console.log("in setTimeout of beginWalking");
-        $("#gameUpdates").html("New day");
+        $("#gameUpdates").html("");
         $("#rollBall").css('background-color', '');
         $("#nextRound").css("background-color", "");
         enableButtons();
@@ -906,9 +906,10 @@ function sendDataToBackend() {
 function updateTotalScore(knockedDown) {
     totalScore = totalScore + knockedDown * .05;
     var score = document.getElementById("TotalScore");
-    score.innerHTML = "Money earned: $" + totalScore.toFixed(2);
-    //"Money earned: " + format2(totalScore / 100.0, "$");
-    fontFlash(score, 'green', 'bold');
+    score.innerHTML = "<font color='red'>Money earned: $" + totalScore.toFixed(2)+"</font>";
+    setTimeout(function(){
+        score.innerHTML="Money earned: $" + totalScore.toFixed(2);
+    },500);
 }
 
 
