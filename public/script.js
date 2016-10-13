@@ -270,7 +270,7 @@ function spendFirst() {
 }
 
 var numWalks; //clicks of walk home button
-var stepsRequired = 30;
+var stepsRequired = 1;
 var stepsLeftText;
 
 function walkHomeFirst(callback) {
@@ -510,11 +510,18 @@ function RollBall() {
 
     //update balls left
     myWealth = myWealth - 1;
+
+    //flash background of wealth box
+    wealth.innerHTML = wealthRect + "<span style='background:" + red + "; padding:5px 8px 5px 8px;'>Wealth: " + myWealth.toString() + " Francs</span>" + wealthRect;
+    setTimeout(function() {
+        wealth.innerHTML = wealthRect + "<span style='background:" + darkBlue + "; padding:5px 8px 5px 8px;'>Wealth: " + myWealth.toString() + " Francs</span>" + wealthRect;
+    }, 500);
+    /*
     fontFlash(wealth, darkBlue, 'bold', function() {
         wealth.innerHTML = wealthRect + "<span style='background:" + darkBlue + "; padding:5px 8px 5px 8px;'>Wealth: " + myWealth.toString() + " Francs</span>" + wealthRect;
         fontFlash(wealth, 'red', 'bold');
     });
-
+*/
     var remainingPins = generatePinsKnockedDown(totalPins);
     //record data
     wealthArray.push(myWealth);
@@ -664,7 +671,7 @@ function flashPins(pinsLeft, knockedDown, callback) {
 
 //returns number of pins knocked down
 function generatePinsKnockedDown(pinsLeft) {
-    $('#gameUpdates').html("Roll ball");
+    //$('#gameUpdates').html("Roll ball");
     var gameUpdates = document.getElementById("gameUpdates");
     //generate random number of pins knocked down
     var knockedDown = Math.floor((Math.random() * (pinsLeft + 1)));
