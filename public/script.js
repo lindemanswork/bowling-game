@@ -154,7 +154,7 @@ function showContinue(round) {
 
     if (round == 1 && !start_15) {
         myWealth = myWealth - 8;
-        wealth.innerHTML = wealthRect + "<span style='background:" + darkBlue + "; padding:5px 8px 5px 8px;'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
+        setWealthText();
         fontFlash(wealth, "red", "bold", function() {
             gameUpdates.innerHTML = 'You <span style="color:red;"">pay</span> 8 Francs for your bowling membership bill';
             var continueAfterBills = document.getElementById('continueAfterBills');
@@ -167,6 +167,10 @@ function showContinue(round) {
         continueAfterBills.setAttribute('onclick', 'showButtons()');
         $('#continueAfterBills').show();
     }
+}
+
+function setWealthText(color=darkBlue){
+     wealth.innerHTML = wealthRect + "<span class='wealthText' style='background:" + color + ";'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
 }
 
 function firstPayments() {
@@ -183,7 +187,7 @@ function firstPayments() {
 
     var gameUpdates = document.getElementById("gameUpdates");
     gameUpdates.innerHTML = "You <span style='color:green;'>receive </span>" + amount_received.toString() + " Francs in income this month";
-    wealth.innerHTML = wealthRect + "<span style='background:" + darkBlue + "; padding:5px 8px 5px 8px;'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
+    setWealthText();
     fontFlash(wealth, "green", "bold", function() {
         $('#continueAfterBills').show();
     });
@@ -199,7 +203,7 @@ function spendFirstIncome() {
 
     //createCustomAlert("You receive 23 Francs in income this month");
     myWealth = myWealth + 23;
-    wealth.innerHTML = wealthRect + "<span style='background:" + darkBlue + "; padding:5px 8px 5px 8px;'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
+    setWealthText();
     fontFlash(wealth, "green", "bold", function() {
         $('#continueAfterBills').show();
     });
@@ -512,9 +516,9 @@ function RollBall() {
     myWealth = myWealth - 1;
 
     //flash background of wealth box
-    wealth.innerHTML = wealthRect + "<span style='background:" + red + "; padding:5px 8px 5px 8px;'>Wealth: " + myWealth.toString() + " Francs</span>" + wealthRect;
+    setWealthText(red);
     setTimeout(function() {
-        wealth.innerHTML = wealthRect + "<span style='background:" + darkBlue + "; padding:5px 8px 5px 8px;'>Wealth: " + myWealth.toString() + " Francs</span>" + wealthRect;
+        setWealthText();
     }, 500);
     /*
     fontFlash(wealth, darkBlue, 'bold', function() {
@@ -815,7 +819,7 @@ function NextRound(payFirst) {
         } else if (!payFirst) { //spend first option
             gameUpdates.innerHTML = 'You pay 8 Francs for your bowling membership bill';
             myWealth = myWealth - 8;
-            wealth.innerHTML = wealthRect + "<span style='backgrounddarkBlue padding:5px 8px 5px 8px;'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
+            setWealthText();
             fontFlash(wealth, "red", "bold", function() {
                 gameUpdates.innerHTML = "You have reached 10 games. The month is now over";
                 currentMonth = currentMonth + 1;

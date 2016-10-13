@@ -187,6 +187,13 @@ a {
     word-spacing: 2pt;
     font-size: 20px;
     line-height: 1;
+    width: 100%;
+}
+
+span.wealthText{
+    display: inline-block;
+    width: 300px !important;
+    padding:6.5px 0px 6.5px 0px;
 }
 
 #gameUpdates{
