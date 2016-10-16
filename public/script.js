@@ -169,8 +169,8 @@ function showContinue(round) {
     }
 }
 
-function setWealthText(color=darkBlue){
-     wealth.innerHTML = wealthRect + "<span class='wealthText' style='background:" + color + ";'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
+function setWealthText(color = darkBlue) {
+    wealth.innerHTML = wealthRect + "<span class='wealthText' style='background:" + color + ";'>Wealth: " + myWealth + " Francs</span>" + wealthRect;
 }
 
 function firstPayments() {
@@ -274,7 +274,7 @@ function spendFirst() {
 }
 
 var numWalks; //clicks of walk home button
-var stepsRequired = 1;
+var stepsRequired = 10;
 var stepsLeftText;
 
 function walkHomeFirst(callback) {
@@ -313,18 +313,29 @@ function actualWalking() {
         console.log("Difference between old and new walk: " + diff);
         for (var i = 0; i < diff; i++) {
             var distanceTraveled = $("#gameGUI").width() / (stepsRequired + 1);
+            walk(sprite, trans, property);
             setTimeout(function() {
-                walk(sprite, trans, property);
+
                 trans += distanceTraveled;
                 console.log("trans: " + trans);
-            }, 1000 * diff);
+            }, 1900 * diff);
 
         }
         oldNumWalks = numWalks;
     }
 }
 
+function actualWalking_v2() {
+    walk(sprite, trans, property);
+    setTimeout(function() {
+        clickBuildUp = clickBuildUp - 1;
+        console.log("decrement clickBuildUp: " + clickBuildUp);
+    }, 1900);
+}
+
+
 //self invoking function, maybe this'll work?
+/*
 (function() {
     setInterval(function() {
         if (shouldBeWalking) {
@@ -341,16 +352,47 @@ function actualWalking() {
         }
     }, 500);
 })();
+*/
+
 
 var i = 0
 var shouldBeWalking = false;
 //var doneWalking = false;
 var walkingCallback = "";
-var totalTimeWalkingShouldTake = stepsRequired * 1000;
+var totalTimeWalkingShouldTake = stepsRequired * 1900;
 var timeFirstClickedBeginWalking = 0;
 var timeEndWalking = 0;
+var clickBuildUp = 0;
+var visibleNumWalks = 0;
+selfInvokingOkToStart = false;
 
 function beginWalking(callback) {
+    walkingCallback = callback
+    if (numWalks < stepsRequired) {
+        if (visibleNumWalks < stepsRequired) {
+            visibleNumWalks++;
+        }
+        clickBuildUp++;
+        var gameUpdates = document.getElementById("gameUpdates");
+        gameUpdates.innerHTML = "<div id='stepsLeft'>Steps left: " + (stepsRequired - visibleNumWalks) + "</div>";
+        actualWalking_v2();
+        selfInvokingOkToStart = true;
+        /*
+        if (clickBuildUp <= 1) { //ok to move forward
+            console.log("Ok to move forward");
+            var distanceTraveled = $("#gameGUI").width() / (stepsRequired + 1);
+            trans += distanceTraveled;
+            console.log("trans: " + trans);
+            console.log("Real numwalks: " + numWalks);
+            numWalks++;
+        }
+        */
+    } else {
+        stopWalking(callback);
+    }
+
+
+    /*
     if (i == 0) {
         timeFirstClickedBeginWalking = performance.now();
     }
@@ -368,14 +410,37 @@ function beginWalking(callback) {
     var gameUpdates = document.getElementById("gameUpdates");
     gameUpdates.innerHTML = "<div id='stepsLeft'>Steps left: " + (stepsRequired - numWalks) + "</div>";
 
-    //actualWalking();
-    //stopWalking(callback);
+    actualWalking();
+    stopWalking(callback);
+    */
 
 }
 
+
+(function() {
+    setInterval(function() {
+        if (selfInvokingOkToStart) {
+            console.log("Self invoking");
+            if (clickBuildUp <= 1) { //ok to move forward
+                console.log("Ok to move forward");
+                var distanceTraveled = $("#gameGUI").width() / (stepsRequired + 1);
+                trans += distanceTraveled;
+                console.log("trans: " + trans);
+                console.log("Real numwalks: " + numWalks);
+                numWalks++;
+                walk(sprite, trans, property);
+            }
+            stopWalking(walkingCallback);
+        }
+    }, 500);
+})();
+
 function stopWalking(callback) {
+
+    console.log("Time to stop walking");
     if (numWalks >= stepsRequired) {
-        //doneWalking = false;
+        console.log("Num walks: " + numWalks);
+        console.log("stepsRequired: " + stepsRequired);
         shouldBeWalking = false;
         var walkHomeButton = document.getElementById("walkHomeButton");
         walkHomeButton.setAttribute("onclick", "");
@@ -388,6 +453,7 @@ function stopWalking(callback) {
         trans = 0; //reset trans
         //$("#gameUpdates").html("<span style='color:red;font-weight:bold;font-size:30px;'>New day</span>");
         console.log("Ready to show next round button");
+        selfInvokingOkToStart = false;
         callback();
 
     }
@@ -910,10 +976,10 @@ function sendDataToBackend() {
 function updateTotalScore(knockedDown) {
     totalScore = totalScore + knockedDown * .05;
     var score = document.getElementById("TotalScore");
-    score.innerHTML = "<font color='red'>Money earned: $" + totalScore.toFixed(2)+"</font>";
-    setTimeout(function(){
-        score.innerHTML="Money earned: $" + totalScore.toFixed(2);
-    },500);
+    score.innerHTML = "<font color='red'>Money earned: $" + totalScore.toFixed(2) + "</font>";
+    setTimeout(function() {
+        score.innerHTML = "Money earned: $" + totalScore.toFixed(2);
+    }, 500);
 }
 
 
