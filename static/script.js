@@ -297,7 +297,7 @@ function walkHomeFirst(callback) {
     walkHomeButton.id = "walkHomeButton";
     walkHomeButton.innerHTML = "Walk Home";
     gameButtons.appendChild(walkHomeButton);
-    $("#gameGUI").append("<img id='house' src='house.png'>");
+    $("#gameGUI").append("<img id='house' src='../static/house.png'>");
     walkHomeButton.setAttribute("onclick", "beginWalking(" + callback + ")");
 }
 
@@ -523,7 +523,7 @@ function drawPins() { //currently just circles
 
     for (var i = 0; i < 5; i++) {
         var bowlingPin = document.createElement("img");
-        bowlingPin.src = "bowling_pin_solid.png";
+        bowlingPin.src = "../static/bowling_pin_solid.png";
         bowlingPin.style = "width:25px;height:60px";
         bowlingPin.id = "bowlingPin_" + i.toString();
         bowlingPin.className = "bowlingPins";
@@ -533,7 +533,7 @@ function drawPins() { //currently just circles
 
     for (var j = 0; j < 5; j++) {
         var bowlingPin = document.createElement("img");
-        bowlingPin.src = "bowling_pin_solid.png";
+        bowlingPin.src = "../static/bowling_pin_solid.png";
         bowlingPin.style = "width:25px;height:60px";
         bowlingPin.id = "bowlingPin_" + (j + 5).toString();
         bowlingPin.className = "bowlingPins";
@@ -699,7 +699,7 @@ function performBlink(tempArr) {
     for (var i = 0; i < tempArr.length; i++) {
         if (tempArr[i] == 10) {} else {
             var bowlingPin = document.getElementById('bowlingPin_' + tempArr[i].toString());
-            bowlingPin.src = "bowling_pin_transparent.png";
+            bowlingPin.src = "../static/bowling_pin_transparent.png";
         }
     }
     //uncomment below to get flashing back
@@ -1014,37 +1014,37 @@ function updateGUI(pinsLeft) {
         //if number of knocked down pins is less than 5
         for (var j = knockedOver; j < 5; j++) {
             var bowlingPin = document.getElementById('bowlingPin_' + j.toString());
-            bowlingPin.src = "bowling_pin_solid.png";
+            bowlingPin.src = "../static/bowling_pin_solid.png";
         }
 
         for (var k = 5; k < 10; k++) {
             var bowlingPin = document.getElementById('bowlingPin_' + k.toString());
-            bowlingPin.src = "bowling_pin_solid.png";
+            bowlingPin.src = "../static/bowling_pin_solid.png";
         }
 
         //knocked down pins
         for (var i = 0; i < knockedOver; i++) {
             var bowlingPinGrey = document.getElementById("bowlingPin_" + i.toString());
-            bowlingPinGrey.src = "bowling_pin_transparent.png";
+            bowlingPinGrey.src = "../static/bowling_pin_transparent.png";
         }
 
     } else { //if number of pinsleft is less than 5, knocked over pins greater than 5
         var knockedOver = 10 - pinsLeft;
         for (var i = 0; i < 5; i++) {
             var bowlingPinGrey = document.getElementById("bowlingPin_" + i.toString());
-            bowlingPinGrey.src = "bowling_pin_transparent.png";
+            bowlingPinGrey.src = "../static/bowling_pin_transparent.png";
         }
 
         for (var j = 5; j < knockedOver; j++) {
             //console.log("bowlingPin_" + j.toString());
             var bowlingPinGrey = document.getElementById("bowlingPin_" + j.toString());
-            bowlingPinGrey.src = "bowling_pin_transparent.png";
+            bowlingPinGrey.src = "../static/bowling_pin_transparent.png";
 
         }
 
         for (var k = knockedOver; k < 10; k++) {
             var bowlingPin = document.getElementById("bowlingPin_" + k.toString());
-            bowlingPin.src = "bowling_pin_solid.png";
+            bowlingPin.src = "../static/bowling_pin_solid.png";
         }
     }
 }

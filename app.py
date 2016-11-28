@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import os
 from server import *
 
@@ -15,6 +15,15 @@ def spend():
 @app.route('/')
 def home():
     return render_template('index.html')
+
+@app.route('/sendDataToBackend')
+def senddata():
+	print 'senddatatobackend called'
+	query_string = request.args
+	data = dict(query_string).keys()[0]
+	print data
+	target = open('flaskdatatest.txt','w')
+	target.write(data)
 
 
 
