@@ -231,7 +231,7 @@ function initPlayGame(_isPayFirst) {
     jsonData["condition"] = option;
     commaSepString = commaSepString + sep + option; //ADD THE DATA
 
-    console.log("commaSepString" + commaSepString);
+    //console.log("commaSepString" + commaSepString);
 
     createInitialDivs();
     if (_isPayFirst) {
@@ -785,7 +785,7 @@ function recordArraysData() {
     commaSepString = commaSepString + sep + "[" + pinsRemainingArray.toString() + "]";
     commaSepString = commaSepString + sep + "[" + choicesArray.toString() + "]";
     commaSepString = commaSepString + sep + "[" + timesArray.toString() + "]";
-    console.log(commaSepString);
+    //console.log(commaSepString);
 
     //reset the arrays for next round
     wealthArray = [];
