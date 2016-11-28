@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="../static/main.css">
+    <link rel="stylesheet" type="text/css" href="../static/walk.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="jquery-1.4.1.min.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script>
+    //which version of the bowling game
+    var start_15 = true;
+    var motivationConditions = false;
+    var walkHomeFirstCondition = true;
+    var cah_url = window.location.href;
+    </script>
+</head>
+
+<body>
+    <div id="game">
+        <!--<div id="rules">
+            <a href="gameRules.html" onclick="return popitup('gameRules.html')">Rules</a>
+        </div>
+        -->
+        <div id="initial">
+            <button id="playGame" onclick="payFirst()">Play Game</button>
+            <!-- <button onclick="spendFirst()">Spend first</button> -->
+            <div id="uniqueCode"></div>
+        </div>
+        <div id="upperStuff"></div>
+        <div id="motivationConditions"></div>
+        <div id="gameGUI">
+        <div id="blankspace"></div>
+            <!-- <svg id="balls"></svg>-->
+        </div>
+    </div>
+    <script src="../static/script.js"></script>
+    <script type="text/javascript" src="../static/walk.js"></script>
+    <script>
+    payFirst();
+    </script>
+</body>
+
+</html>
